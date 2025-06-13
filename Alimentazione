@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programma Alimentare Interattivo - Sig.ra Chiara Amaturo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Earthy Calm (Warm neutrals like beige/off-white, soft brown text, muted green accent) -->
+    <!-- Application Structure Plan: The SPA is designed as an interactive dashboard. The core interaction is a tab-like navigation system with buttons for each day of the week, plus a special button for "Pasto Libero" guidance. This structure makes accessing daily meal plans immediate and intuitive. Key reference information, like general guidelines, is placed in a collapsible section at the top to keep the main view uncluttered but the info readily accessible. A summary visualization (a macronutrient donut chart) is included at the bottom to provide a high-level, educational overview of the diet's principles. This design transforms a static text document into a user-friendly, task-oriented tool. -->
+    <!-- Visualization & Content Choices: 
+    - Report Info: Full 7-day meal plan. Goal: Organize & Inform. Method: Interactive daily schedule. Interaction: User clicks a day button to display that day's meals in formatted cards with icons. Justification: Most direct and user-friendly way to navigate a weekly schedule.
+    - Report Info: "Linee Guida" & "Consigli Aggiuntivi". Goal: Inform. Method: Collapsible text block. Interaction: Click to expand/collapse. Justification: Keeps important but non-daily information accessible without taking up screen space.
+    - Report Info: Macronutrient balance concept. Goal: Visualize diet composition. Method: Donut Chart (Chart.js/Canvas) showing ideal macro split. Interaction: Static weekly summary view with tooltips. Justification: Provides a high-level data insight into the diet's macronutrient balance, promoting understanding of dietary principles. Added text provides context on micros, water, and Kcal.
+    - Report Info: Meal types (colazione, pranzo, etc.). Goal: Inform & structure. Method: Styled cards with headers and icons. Interaction: Static display within the daily view. Justification: Clearly delineates meals for easy readability.
+    - Report Info: "Pasto Libero" guidelines. Goal: Inform & support. Method: Dedicated static content section. Interaction: User clicks a "Pasto Libero" button to display the guidelines. Justification: Provides important lifestyle advice, including tips for meals surrounding the "sgarro", separate from daily meal plans. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .active-day {
+            background-color: #344e41 !important;
+            color: #ffffff !important;
+            font-weight: 600;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#fdfaf6] text-[#3a3a3a]">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#344e41]">Programma Alimentare Sig.ra Chiara Amaturo</h1>
+            <p class="text-lg text-[#588157] mt-2">"Il benessere è un percorso"</p>
+        </header>
+
+        <main>
+            <!-- Guidelines Section -->
+            <section id="guidelines-section" class="mb-8 bg-white/50 rounded-lg shadow-sm">
+                <div id="guidelines-toggle" class="p-4 cursor-pointer flex justify-between items-center">
+                    <h2 class="text-2xl font-semibold text-[#3a5a40]">💡 Linee Guida e Consigli Utili</h2>
+                    <span id="guidelines-arrow" class="transform transition-transform duration-300">▼</span>
+                </div>
+                <div id="guidelines-content" class="hidden p-6 border-t border-gray-200">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2 text-[#344e41]">Linee Guida Principali</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li><strong>Alimenti Freschi:</strong> Privilegia frutta, verdura, legumi, carni magre e pesce. Evita cibi processati.</li>
+                                <li><strong>Idratazione:</strong> Bevi almeno 2 litri di acqua al giorno, specialmente prima dei pasti.</li>
+                                <li><strong>Porzioni Controllate:</strong> Ascolta i segnali di fame e sazietà del tuo corpo.</li>
+                                <li><strong>Varietà:</strong> Varia gli alimenti per assicurarti tutti i nutrienti essenziali.</li>
+                                <li><strong>Cottura Semplice:</strong> Prediligi cotture al vapore, alla griglia, al forno o in padella con poco olio EVO.</li>
+                                <li><strong>Caffè e Dolcificanti:</strong> Massimo 2-3 caffè al giorno, senza zucchero o con dolcificanti naturali (es. stevia).</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2 text-[#344e41]">✨ Consigli per il Successo</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li><strong>Pianificazione:</strong> Prepara i pasti in anticipo per evitare scelte affrettate.</li>
+                                <li><strong>Snack Sani:</strong> Tieni a portata di mano verdure, frutta o frutta secca.</li>
+                                <li><strong>Ascolta il Tuo Corpo:</strong> Distingui la fame vera dalla noia o dallo stress.</li>
+                                <li><strong>Equilibrio:</strong> Concediti un piccolo sgarro controllato senza sensi di colpa.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation -->
+            <nav class="flex flex-wrap justify-center gap-2 mb-8">
+                <button data-day="0" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Lunedì</button>
+                <button data-day="1" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Martedì</button>
+                <button data-day="2" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Mercoledì</button>
+                <button data-day="3" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Giovedì</button>
+                <button data-day="4" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Venerdì</button>
+                <button data-day="5" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Sabato</button>
+                <button data-day="6" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Domenica</button>
+                <button data-day="7" class="day-btn px-4 py-2 rounded-full bg-[#cc5500] text-white transition-colors duration-300 hover:bg-[#a04300]">Pasto Libero</button>
+            </nav>
+
+            <!-- Dynamic Content -->
+            <section id="meal-plan" class="bg-white rounded-xl shadow p-6 min-h-[400px]">
+                <!-- Meal content will be injected here -->
+            </section>
+            
+            <!-- Visualization Section -->
+            <section class="mt-12">
+                 <h2 class="text-2xl font-semibold text-center text-[#3a5a40] mb-4">Panoramica dei Macronutrienti</h2>
+                 <p class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">Questa visualizzazione mostra la distribuzione percentuale indicativa dei macronutrienti per una dieta bilanciata volta alla perdita di peso. L'equilibrio tra carboidrati, proteine e grassi è chiave per fornire energia, preservare la massa muscolare e supportare le funzioni corporee.</p>
+                <div class="chart-container bg-white p-4 rounded-xl shadow">
+                    <canvas id="nutrientChart"></canvas>
+                </div>
+                <div class="text-center text-gray-700 mt-6 px-4 max-w-3xl mx-auto">
+                    <p class="mb-2">Oltre ai macronutrienti, è fondamentale un adeguato apporto di <strong>micronutrienti</strong> (vitamine e minerali da frutta e verdura) e una corretta <strong>idratazione</strong> (almeno 2 litri d'acqua). Il fabbisogno calorico (<strong>Kcal</strong>) è individuale; questo programma mira a un deficit moderato per favorire una perdita di peso sana e sostenibile.</p>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-12 text-gray-500">
+            <p>&copy; 2025 Il Tuo Programma di Benessere. Realizzato da MAX con cura per te.</p>
+        </footer>
+    </div>
+
+    <script>
+        const mealData = [
+            // Giorno 1
+            {
+                day: 'Lunedì',
+                meals: [
+                    { time: 'Colazione', icon: '☕️', food: '1 yogurt greco magro (150g) con 100g di frutti di bosco freschi e 10g di mandorle a lamelle.' },
+                    { time: 'Spuntino', icon: '🍎', food: '1 mela media.' },
+                    { time: 'Pranzo', icon: '🥗', food: 'Insalata di pollo: 120g di petto di pollo alla griglia, con abbondante insalata mista e 1 cucchiaio di olio EVO.' },
+                    { time: 'Spuntino', icon: '🥜', food: '10 mandorle non salate.' },
+                    { time: 'Cena', icon: '🍲', food: 'Salmone al forno (150g) con un contorno di broccoli al vapore (200g) e un filo d\'olio.' }
+                ]
+            },
+            // Giorno 2
+            {
+                day: 'Martedì',
+                meals: [
+                    { time: 'Colazione', icon: '🍳', food: '2 uova strapazzate con spinaci (100g) e un pomodoro medio.' },
+                    { time: 'Spuntino', icon: '🥕', food: '100g di carote a bastoncino.' },
+                    { time: 'Pranzo', icon: '�', food: 'Insalata di lenticchie: 100g di lenticchie cotte con verdure miste crude e 40g di riso integrale (peso a crudo). Condisci con 1 cucchiaio di olio EVO.' },
+                    { time: 'Spuntino', icon: '🥝', food: '1 kiwi.' },
+                    { time: 'Cena', icon: '🍲', food: 'Omelette di albumi (3 albumi) con funghi (100g) e zucchine grigliate (150g).' }
+                ]
+            },
+            // Giorno 3
+            {
+                day: 'Mercoledì',
+                meals: [
+                    { time: 'Colazione', icon: '🍓', food: '1 yogurt bianco magro (150g) con 10g de semi di chia e 100g di fragole fresche.' },
+                    { time: 'Spuntino', icon: '🍌', food: '1 banana piccola.' },
+                    { time: 'Pranzo', icon: '🥗', food: 'Petto di tacchino al forno (130g) con verdure grigliate (250g) e 60g di quinoa (peso a crudo).' },
+                    { time: 'Spuntino', icon: '🥣', food: '1 yogurt bianco magro (125g).' },
+                    { time: 'Cena', icon: '🍲', food: 'Passato di verdure miste (250g, senza patate) con 50g di ceci lessi e un filo d\'olio.' }
+                ]
+            },
+            // Giorno 4
+            {
+                day: 'Giovedì',
+                meals: [
+                    { time: 'Colazione', icon: '🧀', food: '2 fette di prosciutto cotto magro (60g) con 50g di ricotta light e qualche foglia di lattuga.' },
+                    { time: 'Spuntino', icon: '🍊', food: '1 arancia.' },
+                    { time: 'Pranzo', icon: '🥗', food: 'Insalata di tonno (100g al naturale) con fagiolini lessi (150g) e pomodorini (100g). Condisci con 1 cucchiaio di olio EVO.' },
+                    { time: 'Spuntino', icon: '🥜', food: '10 noci.' },
+                    { time: 'Cena', icon: '🍲', food: 'Zuppa di verdure miste (300g) con 100g di petto di pollo a dadini.' }
+                ]
+            },
+            // Giorno 5
+            {
+                day: 'Venerdì',
+                meals: [
+                    { time: 'Colazione', icon: '🥑', food: '2 uova sode con 50g di avocado a fette.' },
+                    { time: 'Spuntino', icon: '🍐', food: '1 pera.' },
+                    { time: 'Pranzo', icon: '🐟', food: 'Merluzzo al vapore (150g) con spinaci saltati in padella (200g) con aglio e un filo d\'olio.' },
+                    { time: 'Spuntino', icon: '🥣', food: '1 yogurt greco magro (150g).' },
+                    { time: 'Cena', icon: '🍲', food: 'Polpette di lenticchie (da 150g di lenticchie cotte) al forno, con insalata verde (200g).' }
+                ]
+            },
+            // Giorno 6
+            {
+                day: 'Sabato',
+                meals: [
+                    { time: 'Colazione', icon: '🫐', food: '150g di ricotta magra con 100g di mirtilli freschi e 5g di semi di lino.' },
+                    { time: 'Spuntino', icon: '🥒', food: '150g di cetrioli a fette.' },
+                    { time: 'Pranzo', icon: '🥗', food: 'Insalata caprese: 100g di mozzarella light, 200g di pomodori freschi, basilico e 1 cucchiaio di olio EVO.' },
+                    { time: 'Spuntino', icon: '🥜', food: '10 mandorle.' },
+                    { time: 'Cena', icon: '🍲', food: 'Petto di pollo alla piastra (120g) con un\'abbondante insalata di finocchi e arance (200g).' }
+                ]
+            },
+            // Giorno 7
+            {
+                day: 'Domenica',
+                meals: [
+                    { time: 'Colazione', icon: '🍳', food: 'Omelette di 2 uova intere con pomodorini (50g) e basilico fresco.' },
+                    { time: 'Spuntino', icon: '🍒', food: '100g di ciliegie.' },
+                    { time: 'Pranzo', icon: '🥗', food: 'Frittata di verdure (2 uova e 150g di verdure a scelta) con 50g di riso integrale (peso a crudo).' },
+                    { time: 'Spuntino', icon: '🍅', food: '100g di pomodoro a fette con origano.' },
+                    { time: 'Cena', icon: '🍲', food: 'Zuppa di fagioli (150g di fagioli cotti) con un filo d\'olio EVO e rosmarino.' }
+                ]
+            },
+            // Pasto Libero
+            {
+                day: 'Pasto Libero',
+                type: 'info',
+                content: `
+                    <div class="text-center mb-6">
+                        <span class="text-6xl mb-4 block">🥳</span>
+                        <h3 class="text-3xl font-bold text-[#cc5500] mb-4">Gestire il Tuo Pasto Libero</h3>
+                        <p class="text-lg text-gray-700 max-w-prose mx-auto">
+                            Il pasto libero è un momento per godersi cibi che ami, senza sensi di colpa.
+                            Non è un fallimento, ma una parte importante di un percorso sano e sostenibile.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                        <div class="bg-yellow-50/50 p-4 rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-xl text-[#cc5500] mb-2">Quando e Quanto?</h4>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li><strong>Frequenza:</strong> Ideale 1-2 volte a settimana, concentrato in un unico pasto (non un'intera giornata).</li>
+                                <li><strong>Quantità:</strong> Goditi una porzione normale del tuo piatto preferito, ma evita l'abbuffata.</li>
+                                <li><strong>Ascolta il tuo corpo:</strong> Mangia finché non sei soddisfatta, non "piena da scoppiare".</li>
+                            </ul>
+                        </div>
+                        <div class="bg-yellow-50/50 p-4 rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-xl text-[#cc5500] mb-2">Consigli Pratici</h4>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li><strong>Pianifica:</strong> Scegli in anticipo cosa mangerai per godertelo di più.</li>
+                                <li><strong>Consapevolezza:</strong> Assapora ogni boccone, mangia lentamente e senza distrazioni.</li>
+                                <li><strong>Equilibrio:</strong> Nel pasto precedente e successivo allo "sgarro", prediligi opzioni leggere come verdure e proteine magre per bilanciare.</li>
+                                <li><strong>Nessun senso di colpa:</strong> Dal giorno dopo, riprendi serenamente il tuo programma. Uno sgarro non rovina i progressi!</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        const mealPlanContainer = document.getElementById('meal-plan');
+        const dayButtons = document.querySelectorAll('.day-btn');
+
+        function displayMeals(dayIndex) {
+            const dayData = mealData[dayIndex];
+            mealPlanContainer.innerHTML = ''; 
+
+            if (dayData.type === 'info') {
+                mealPlanContainer.innerHTML = dayData.content;
+            } else {
+                const dayTitle = document.createElement('h2');
+                dayTitle.className = 'text-3xl font-bold text-center mb-6 text-[#344e41]';
+                dayTitle.textContent = dayData.day;
+                mealPlanContainer.appendChild(dayTitle);
+
+                const grid = document.createElement('div');
+                grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4';
+
+                dayData.meals.forEach(meal => {
+                    const mealCard = `
+                        <div class="bg-[#f8f9fa]/60 rounded-lg p-4 flex items-start space-x-4 transition-transform hover:scale-105 duration-300">
+                            <span class="text-3xl pt-1">${meal.icon}</span>
+                            <div>
+                                <h3 class="font-semibold text-lg text-[#588157]">${meal.time}</h3>
+                                <p class="text-gray-600">${meal.food}</p>
+                            </div>
+                        </div>
+                    `;
+                    grid.innerHTML += mealCard;
+                });
+                mealPlanContainer.appendChild(grid);
+            }
+        }
+
+        dayButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const dayIndex = button.dataset.day;
+                
+                dayButtons.forEach(btn => btn.classList.remove('active-day'));
+                button.classList.add('active-day');
+
+                displayMeals(dayIndex);
+            });
+        });
+
+        const guidelinesToggle = document.getElementById('guidelines-toggle');
+        const guidelinesContent = document.getElementById('guidelines-content');
+        const guidelinesArrow = document.getElementById('guidelines-arrow');
+
+        guidelinesToggle.addEventListener('click', () => {
+            guidelinesContent.classList.toggle('hidden');
+            guidelinesArrow.classList.toggle('rotate-180');
+        });
+        
+        const nutrientData = {
+            'Carboidrati': 45,
+            'Proteine': 30,
+            'Grassi': 25,
+        };
+
+        const ctx = document.getElementById('nutrientChart').getContext('2d');
+        const nutrientChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(nutrientData),
+                datasets: [{
+                    label: 'Macronutrienti',
+                    data: Object.values(nutrientData),
+                    backgroundColor: [
+                        '#588157',
+                        '#3a5a40',
+                        '#a3b18a',
+                    ],
+                    borderColor: '#fdfaf6',
+                    borderWidth: 4,
+                    hoverOffset: 12
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#3a3a3a',
+                            font: {
+                                size: 14
+                            },
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += context.parsed + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Initial load
+        displayMeals(0);
+        document.querySelector('.day-btn[data-day="0"]').classList.add('active-day');
+
+    </script>
+
+</body>
+</html>
