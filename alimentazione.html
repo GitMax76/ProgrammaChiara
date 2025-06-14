@@ -6,15 +6,6 @@
     <title>Programma Alimentare Interattivo - Sig.ra Chiara Amaturo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Chosen Palette: Earthy Calm (Warm neutrals like beige/off-white, soft brown text, muted green accent) -->
-    <!-- Application Structure Plan: The SPA is designed as an interactive dashboard. The core interaction is a tab-like navigation system with buttons for each day of the week, plus a special button for "Pasto Libero" guidance. This structure makes accessing daily meal plans immediate and intuitive. Key reference information, like general guidelines, is placed in a collapsible section at the top to keep the main view uncluttered but the info readily accessible. A summary visualization (a macronutrient donut chart) is included at the bottom to provide a high-level, educational overview of the diet's principles. This design transforms a static text document into a user-friendly, task-oriented tool. -->
-    <!-- Visualization & Content Choices: 
-    - Report Info: Full 7-day meal plan. Goal: Organize & Inform. Method: Interactive daily schedule. Interaction: User clicks a day button to display that day's meals in formatted cards with icons. Justification: Most direct and user-friendly way to navigate a weekly schedule.
-    - Report Info: "Linee Guida" & "Consigli Aggiuntivi". Goal: Inform. Method: Collapsible text block. Interaction: Click to expand/collapse. Justification: Keeps important but non-daily information accessible without taking up screen space.
-    - Report Info: Macronutrient balance concept. Goal: Visualize diet composition. Method: Donut Chart (Chart.js/Canvas) showing ideal macro split. Interaction: Static weekly summary view with tooltips. Justification: Provides a high-level data insight into the diet's macronutrient balance, promoting understanding of dietary principles. Added text provides context on micros, water, and Kcal.
-    - Report Info: Meal types (colazione, pranzo, etc.). Goal: Inform & structure. Method: Styled cards with headers and icons. Interaction: Static display within the daily view. Justification: Clearly delineates meals for easy readability.
-    - Report Info: "Pasto Libero" guidelines. Goal: Inform & support. Method: Dedicated static content section. Interaction: User clicks a "Pasto Libero" button to display the guidelines. Justification: Provides important lifestyle advice, including tips for meals surrounding the "sgarro", separate from daily meal plans. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -48,8 +39,22 @@
             <p class="text-lg text-[#588157] mt-2">"Il benessere è un percorso"</p>
         </header>
 
+        <section class="flex flex-wrap justify-center gap-4 mb-8">
+            <a href="index.html" class="block">
+                <button class="px-6 py-3 bg-[#588157] text-white rounded-full text-lg font-semibold hover:bg-[#344e41] transition-colors duration-300 shadow-md flex items-center space-x-2">
+                    <span>🏠</span>
+                    <span>Menù Principale</span>
+                </button>
+            </a>
+            <a href="https://wa.me/+393295644852" target="_blank" class="block">
+                <button class="px-6 py-3 bg-[#25D366] text-white rounded-full text-lg font-semibold hover:bg-[#1DA851] transition-colors duration-300 shadow-md flex items-center space-x-2">
+                    <span>💬</span>
+                    <span>Scrivimi su WA</span>
+                </button>
+            </a>
+        </section>
+
         <main>
-            <!-- Guidelines Section -->
             <section id="guidelines-section" class="mb-8 bg-white/50 rounded-lg shadow-sm">
                 <div id="guidelines-toggle" class="p-4 cursor-pointer flex justify-between items-center">
                     <h2 class="text-2xl font-semibold text-[#3a5a40]">💡 Linee Guida e Consigli Utili</h2>
@@ -81,7 +86,6 @@
                 </div>
             </section>
 
-            <!-- Navigation -->
             <nav class="flex flex-wrap justify-center gap-2 mb-8">
                 <button data-day="0" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Lunedì</button>
                 <button data-day="1" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Martedì</button>
@@ -93,12 +97,9 @@
                 <button data-day="7" class="day-btn px-4 py-2 rounded-full bg-[#cc5500] text-white transition-colors duration-300 hover:bg-[#a04300]">Pasto Libero</button>
             </nav>
 
-            <!-- Dynamic Content -->
             <section id="meal-plan" class="bg-white rounded-xl shadow p-6 min-h-[400px]">
-                <!-- Meal content will be injected here -->
-            </section>
+                </section>
             
-            <!-- Visualization Section -->
             <section class="mt-12">
                  <h2 class="text-2xl font-semibold text-center text-[#3a5a40] mb-4">Panoramica dei Macronutrienti</h2>
                  <p class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">Questa visualizzazione mostra la distribuzione percentuale indicativa dei macronutrienti per una dieta bilanciata volta alla perdita di peso. L'equilibrio tra carboidrati, proteine e grassi è chiave per fornire energia, preservare la massa muscolare e supportare le funzioni corporee.</p>
