@@ -6,16 +6,6 @@
     <title>Programma di Allenamento Interattivo Sig.ra Chiara Amaturo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Chosen Palette: Earthy Calm (Warm neutrals like beige/off-white, soft brown text, muted green accent for consistency with the diet app) -->
-    <!-- Application Structure Plan: The SPA is structured as an interactive weekly planner. A top navigation bar with buttons for each day allows for quick access to daily workout details. This dashboard-like approach is highly intuitive for a schedule-based report. Fundamental principles and advice are placed in a collapsible section to keep them accessible but not intrusive. Key visualizations, including a weekly bar chart for workout types, a bar chart for estimated calories burned, and a bar chart for stimulated areas, offer clear overviews of the weekly structure, intensity, and muscle engagement. This design turns a static text plan into an engaging and easy-to-follow digital tool. -->
-    <!-- Visualization & Content Choices: 
-    - Report Info: Full 7-day workout plan. Goal: Organize & Inform. Method: Interactive daily schedule cards with emoticons. Interaction: User clicks a day button to display that day's full workout, broken down into clear steps (Warm-up, Exercises, Cardio, Cool-down). Justification: This is the most effective way to present a daily schedule, making it easy to follow during a workout session, enhanced by visual cues.
-    - Report Info: "Principi Fondamentali" & "Consigli Aggiuntivi". Goal: Inform. Method: Collapsible text block. Interaction: Click to expand/collapse. Justification: Keeps important reference information easily accessible without cluttering the primary view.
-    - Report Info: Weekly workout structure (types of training per day). Goal: Visualize the weekly rhythm. Method: Bar Chart (Chart.js/Canvas). Interaction: Static chart displaying the focus for each day. Justification: Provides a high-level visual summary of the training week, helping the user understand the balance between work and rest days.
-    - Report Info: Estimated calories burned per session. Goal: Inform about energy expenditure. Method: Bar Chart (Chart.js/Canvas). Interaction: Static chart. Justification: Provides a quantifiable estimate of effort for daily motivation and understanding.
-    - Report Info: Stimulated muscle areas. Goal: Inform about muscle engagement. Method: Bar Chart (Chart.js/Canvas) summarizing weekly effort by body part. Interaction: Static chart. Justification: Helps the user understand the targeted areas and the overall balance of muscle work.
-    - Report Info: Exercises, sets, reps, recovery times. Goal: Instruct. Method: Styled lists with icons within daily cards. Interaction: Static display. Justification: Presents complex instructions in a clear, scannable format for easy use during exercise. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -49,8 +39,22 @@
             <p class="text-lg text-[#588157] mt-2">"La costanza è l'unico segreto per i tuoi obiettivi!"</p>
         </header>
 
+        <section class="flex flex-wrap justify-center gap-4 mb-8">
+            <a href="index.html" class="block">
+                <button class="px-6 py-3 bg-[#588157] text-white rounded-full text-lg font-semibold hover:bg-[#344e41] transition-colors duration-300 shadow-md flex items-center space-x-2">
+                    <span>🏠</span>
+                    <span>Menù Principale</span>
+                </button>
+            </a>
+            <a href="https://wa.me/393295644852" target="_blank" class="block">
+                <button class="px-6 py-3 bg-[#25D366] text-white rounded-full text-lg font-semibold hover:bg-[#1DA851] transition-colors duration-300 shadow-md flex items-center space-x-2">
+                    <span>💬</span>
+                    <span>WhatsApp</span>
+                </button>
+            </a>
+        </section>
+
         <main>
-            <!-- Principles Section -->
             <section class="mb-8 bg-white/50 rounded-lg shadow-sm">
                 <div id="principles-toggle" class="p-4 cursor-pointer flex justify-between items-center">
                     <h2 class="text-2xl font-semibold text-[#3a5a40]">🏆 Principi Fondamentali e Consigli</h2>
@@ -82,7 +86,6 @@
                 </div>
             </section>
 
-            <!-- Navigation -->
             <nav class="flex flex-wrap justify-center gap-2 mb-8">
                 <button data-day="0" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Lunedì</button>
                 <button data-day="1" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Martedì</button>
@@ -93,12 +96,9 @@
                 <button data-day="6" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Domenica</button>
             </nav>
 
-            <!-- Dynamic Content -->
             <section id="workout-plan" class="bg-white rounded-xl shadow p-6 min-h-[400px]">
-                <!-- Workout content will be injected here -->
-            </section>
+                </section>
             
-            <!-- Visualization Section -->
             <section class="mt-12">
                  <h2 class="text-2xl font-semibold text-center text-[#3a5a40] mb-4">La Tua Settimana di Allenamento in Sintesi</h2>
                  <p class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">Questa sezione offre una panoramica grafica del tuo programma settimanale, illustrando il focus di ogni giornata, le aree muscolari più sollecitate e una stima delle calorie bruciate, per aiutarti a visualizzare i tuoi progressi.</p>
