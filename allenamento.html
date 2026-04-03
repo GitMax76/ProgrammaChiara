@@ -6,6 +6,16 @@
     <title>Programma di Allenamento Interattivo Sig.ra Chiara Amaturo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Earthy Calm (Warm neutrals like beige/off-white, soft brown text, muted green accent for consistency with the diet app) -->
+    <!-- Application Structure Plan: The SPA is structured as an interactive weekly planner. A top navigation bar with buttons for each day allows for quick access to daily workout details. This dashboard-like approach is highly intuitive for a schedule-based report. Fundamental principles and advice are placed in a collapsible section to keep them accessible but not intrusive. Key visualizations, including a weekly bar chart for workout types, a bar chart for estimated calories burned, and a bar chart for stimulated areas, offer clear overviews of the weekly structure, intensity, and muscle engagement. This design turns a static text plan into an engaging and easy-to-follow digital tool. -->
+    <!-- Visualization & Content Choices: 
+    - Report Info: Full 7-day workout plan. Goal: Organize & Inform. Method: Interactive daily schedule cards with emoticons. Interaction: User clicks a day button to display that day's full workout, broken down into clear steps (Warm-up, Exercises, Cardio, Cool-down). Justification: This is the most effective way to present a daily schedule, making it easy to follow during a workout session, enhanced by visual cues.
+    - Report Info: "Principi Fondamentali" & "Consigli Aggiuntivi". Goal: Inform. Method: Collapsible text block. Interaction: Click to expand/collapse. Justification: Keeps important reference information easily accessible without cluttering the primary view.
+    - Report Info: Weekly workout structure (types of training per day). Goal: Visualize the weekly rhythm. Method: Bar Chart (Chart.js/Canvas). Interaction: Static chart displaying the focus for each day. Justification: Provides a high-level visual summary of the training week, helping the user understand the balance between work and rest days.
+    - Report Info: Estimated calories burned per session. Goal: Inform about energy expenditure. Method: Bar Chart (Chart.js/Canvas). Interaction: Static chart. Justification: Provides a quantifiable estimate of effort for daily motivation and understanding.
+    - Report Info: Stimulated muscle areas. Goal: Inform about muscle engagement. Method: Bar Chart (Chart.js/Canvas) summarizing weekly effort by body part. Interaction: Static chart. Justification: Helps the user understand the targeted areas and the overall balance of muscle work.
+    - Report Info: Exercises, sets, reps, recovery times. Goal: Instruct. Method: Styled lists with icons within daily cards. Interaction: Static display. Justification: Presents complex instructions in a clear, scannable format for easy use during exercise. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -35,26 +45,12 @@
 
     <div class="container mx-auto p-4 md:p-8 max-w-5xl">
         <header class="text-center mb-8">
-            <h1 class="text-4xl md:text-5xl font-bold text-[#344e41]">Programma di Allenamento Sig.ra Chiara Amaturo</h1>
-            <p class="text-lg text-[#588157] mt-2">"La costanza è l'unico segreto per i tuoi obiettivi!"</p>
+            <h1 class="text-4xl md:text-5xl font-bold text-[#344e41]">Programma di Allenamento Sig.ra Chiara Amaturo (38 anni)</h1>
+            <p class="text-lg text-[#588157] mt-2">"Postura, forza centrale e benessere in 3 giorni a settimana!"</p>
         </header>
 
-        <section class="flex flex-wrap justify-center gap-4 mb-8">
-            <a href="index.html" class="block">
-                <button class="px-6 py-3 bg-[#588157] text-white rounded-full text-lg font-semibold hover:bg-[#344e41] transition-colors duration-300 shadow-md flex items-center space-x-2">
-                    <span>🏠</span>
-                    <span>Menù Principale</span>
-                </button>
-            </a>
-            <a href="https://wa.me/+393295644852" target="_blank" class="block">
-                <button class="px-6 py-3 bg-[#25D366] text-white rounded-full text-lg font-semibold hover:bg-[#1DA851] transition-colors duration-300 shadow-md flex items-center space-x-2">
-                    <span>💬</span>
-                    <span>Scrivimi su WA</span>
-                </button>
-            </a>
-        </section>
-
         <main>
+            <!-- Principles Section -->
             <section class="mb-8 bg-white/50 rounded-lg shadow-sm">
                 <div id="principles-toggle" class="p-4 cursor-pointer flex justify-between items-center">
                     <h2 class="text-2xl font-semibold text-[#3a5a40]">🏆 Principi Fondamentali e Consigli</h2>
@@ -65,11 +61,11 @@
                         <div>
                             <h3 class="font-bold text-lg mb-2 text-[#344e41]">Principi dell'Allenamento</h3>
                             <ul class="list-disc list-inside space-y-2 text-gray-700">
-                                <li><strong>Riscaldamento (5 min):</strong> Sempre! Prepara i muscoli e previene infortuni.</li>
-                                <li><strong>Forma Corretta:</strong> La qualità del movimento batte la quantità.</li>
-                                <li><strong>Recupero:</strong> Rispetta i tempi indicati per massimizzare l'efficacia.</li>
-                                <li><strong>Postura:</strong> Addome contratto e schiena dritta per proteggerti.</li>
-                                <li><strong>Ascolta il Tuo Corpo:</strong> Se senti dolore acuto, fermati. Il riposo è parte del training.</li>
+                                <li><strong>3 Sessioni Settimanali:</strong> Ottimizzate (max 45-50 min) per garantire costanza e recupero.</li>
+                                <li><strong>Sicurezza Prima di Tutto:</strong> Esercizi controllati e a basso impatto per preservare le articolazioni.</li>
+                                <li><strong>Focus Core e Postura:</strong> Rafforzare l'addome profondo per sostenere la colonna e migliorare l'allineamento.</li>
+                                <li><strong>Riscaldamento (5-8 min):</strong> Mobilità articolare fondamentale per preparare il corpo.</li>
+                                <li><strong>Respirazione:</strong> Espira durante lo sforzo, inspira nel rilascio. Mai in apnea!</li>
                             </ul>
                         </div>
                         <div>
@@ -86,6 +82,7 @@
                 </div>
             </section>
 
+            <!-- Navigation -->
             <nav class="flex flex-wrap justify-center gap-2 mb-8">
                 <button data-day="0" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Lunedì</button>
                 <button data-day="1" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Martedì</button>
@@ -96,12 +93,15 @@
                 <button data-day="6" class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Domenica</button>
             </nav>
 
+            <!-- Dynamic Content -->
             <section id="workout-plan" class="bg-white rounded-xl shadow p-6 min-h-[400px]">
-                </section>
+                <!-- Workout content will be injected here -->
+            </section>
             
+            <!-- Visualization Section -->
             <section class="mt-12">
                  <h2 class="text-2xl font-semibold text-center text-[#3a5a40] mb-4">La Tua Settimana di Allenamento in Sintesi</h2>
-                 <p class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">Questa sezione offre una panoramica grafica del tuo programma settimanale, illustrando il focus di ogni giornata, le aree muscolari più sollecitate e una stima delle calorie bruciate, per aiutarti a visualizzare i tuoi progressi.</p>
+                 <p class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">Questa sezione offre una panoramica grafica del tuo programma di 3 giorni, illustrando l'alta concentrazione sul rinforzo del core e della postura, mantenendo un sano equilibrio con i giorni di recupero.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
                     <div class="bg-white p-4 rounded-xl shadow chart-container">
@@ -132,114 +132,99 @@
         const workoutData = [
             {
                 day: 'Lunedì',
-                title: 'Total Body e Cardio',
-                focus: 'Total Body',
-                duration: '40 min',
-                dailyKcal: 350,
+                title: 'Total Body & Postura (Allenamento 1)',
+                focus: 'Total Body & Core',
+                duration: '45-50 min',
+                dailyKcal: 320,
                 plan: [
-                    { type: 'Riscaldamento', emoji: ' warming up', time: '5 min', details: ['Marcia sul posto', 'Circonduzione braccia', 'Slanci gambe leggeri', 'Rotazione busto'] },
-                    { type: 'Esercizi Principali', emoji: '🏋️‍♀️', time: '15-20 min', details: [
-                        { name: 'Squat a corpo libero', reps: '12-15 rip', sets: '3 serie', areas: { gambe: 3, glutei: 2, core: 1 } },
-                        { name: 'Plank', reps: '30-40 sec', sets: '3 serie', areas: { core: 3 } },
-                        { name: 'Curl bicipiti con kettlebell', reps: '10-12 rip / braccio', sets: '3 serie', areas: { braccia: 3 } }
-                    ], recovery: '45-60 sec tra le serie' },
-                    { type: 'Cardio', emoji: '🚶‍♀️', time: '15 min', details: ['Camminata veloce'] },
-                    { type: 'Defaticamento', emoji: '🧘‍♀️', time: '5 min', details: ['Stretching leggero per gambe, braccia e schiena'] }
+                    { type: 'Riscaldamento', emoji: ' warming up', time: '10 min', details: ['3-5 min Macchine cardio (Cyclette/Ellittica/Tapis Roulant)', 'Gatto-Mucca (mobilità schiena)', 'Rotazioni busto', 'Circonduzioni spalle'] },
+                    { type: 'Esercizi Principali', emoji: '🏋️‍♀️', time: '25 min', details: [
+                        { name: 'Bird-Dog (Postura/Core)', reps: '10 rip / lato', sets: '3 serie', areas: { core: 3, schiena: 2, glutei: 1, postura: 3 } },
+                        { name: 'Squat corpo libero o leggero', reps: '12-15 rip', sets: '3 serie', areas: { gambe: 2, glutei: 2, core: 1 } },
+                        { name: 'Rematore con Kettlebell', reps: '12 rip / braccio', sets: '3 serie', areas: { schiena: 3, braccia: 1, postura: 3 } },
+                        { name: 'Plank in appoggio sui gomiti o ginocchia', reps: '30 sec', sets: '3 serie', areas: { core: 3, spalle: 1 } }
+                    ], recovery: '60 sec tra le serie (Esecuzione lenta e sicura)' },
+                    { type: 'Cardio', emoji: '🏃‍♀️', time: '10-15 min', details: ['Macchine cardio a scelta (Ellittica, Tapis roulant, o Cyclette) a intensità moderata'] },
+                    { type: 'Defaticamento', emoji: '🧘‍♀️', time: '5 min', details: ['Stretching focalizzato su schiena e petto'] }
                 ]
             },
             {
                 day: 'Martedì',
-                title: 'Gambe, Glutei e Core',
-                focus: 'Gambe & Core',
-                duration: '40 min',
-                dailyKcal: 300,
+                title: 'Riposo Attivo',
+                focus: 'Recupero',
+                duration: '30 min',
+                dailyKcal: 150,
                 plan: [
-                    { type: 'Riscaldamento', emoji: ' warming up', time: '5 min', details: ['Simile al Giorno 1'] },
-                    { type: 'Esercizi Principali', emoji: '💪', time: '18-23 min', details: [
-                        { name: 'Hip Thrust (Ponte glutei)', reps: '15-20 rip', sets: '3 serie', areas: { glutei: 3, gambe: 1, core: 1 } },
-                        { name: 'Side Leg Raises', reps: '12-15 rip / lato', sets: '3 serie', areas: { glutei: 2, gambe: 1 } },
-                        { name: 'Crunch', reps: '15-20 rip', sets: '3 serie', areas: { core: 3 } },
-                        { name: 'Row con kettlebell', reps: '10-12 rip / braccio', sets: '3 serie', areas: { schiena: 3, braccia: 1 } },
-                    ], recovery: '45-60 sec tra le serie' },
-                    { type: 'Cardio', emoji: '🏃‍♀️', time: '10 min', details: ['Camminata veloce'] },
-                    { type: 'Defaticamento', emoji: '🧘‍♀️', time: '5 min', details: ['Stretching mirato per gambe e glutei'] }
+                    { type: 'Attività Libera', emoji: ' leisurely walk', time: '30 min', details: ['Camminata leggera o attività quotidiana (opzionale)'] },
+                    { type: 'Recupero', emoji: '😌', time: '-', details: ['Ascolta il tuo corpo e mantieniti idratata'] }
                 ]
             },
             {
                 day: 'Mercoledì',
-                title: 'Total Body e Cardio',
-                focus: 'Total Body',
-                duration: '40 min',
-                dailyKcal: 350,
+                title: 'Gambe, Glutei & Addome (Allenamento 2)',
+                focus: 'Lower Body & Core',
+                duration: '45-50 min',
+                dailyKcal: 300,
                 plan: [
-                     { type: 'Riscaldamento', emoji: ' warming up', time: '5 min', details: ['Simile ai giorni precedenti'] },
-                    { type: 'Esercizi Principali', emoji: '🏋️‍♀️', time: '18-23 min', details: [
-                        { name: 'Sumo Squat con kettlebell', reps: '12-15 rip', sets: '3 serie', areas: { gambe: 3, glutei: 3, core: 1 } },
-                        { name: 'Mountain Climbers', reps: '40-50 sec', sets: '3 serie', areas: { core: 2, gambe: 1, braccia: 1 } },
-                        { name: 'Shoulder Press con kettlebell', reps: '10-12 rip / braccio', sets: '3 serie', areas: { spalle: 3, braccia: 1 } },
-                        { name: 'Rematore a corpo libero', reps: '10-12 rip', sets: '3 serie', areas: { schiena: 3, braccia: 1 } },
-                    ], recovery: '45-60 sec tra le serie' },
-                    { type: 'Cardio', emoji: '🚶‍♀️', time: '10 min', details: ['Camminata veloce'] },
-                    { type: 'Defaticamento', emoji: '🧘‍♀️', time: '5 min', details: ['Stretching parte superiore e gambe'] }
+                     { type: 'Riscaldamento', emoji: ' warming up', time: '10 min', details: ['3-5 min Macchine cardio (Cyclette/Ellittica/Tapis Roulant)', 'Mobilità anche', 'Slanci gambe laterali'] },
+                    { type: 'Esercizi Principali', emoji: '💪', time: '25 min', details: [
+                        { name: 'Ponte Glutei (Hip Thrust a terra)', reps: '15-20 rip', sets: '3 serie', areas: { glutei: 3, core: 1, postura: 1 } },
+                        { name: 'Affondi indietro alternati (sicuri per le ginocchia)', reps: '10 rip / gamba', sets: '3 serie', areas: { gambe: 2, glutei: 2 } },
+                        { name: 'Deadbug (Addome sicuro)', reps: '12 rip', sets: '3 serie', areas: { core: 3, postura: 2 } },
+                        { name: 'Side Plank modificato (sulle ginocchia)', reps: '20 sec / lato', sets: '3 serie', areas: { core: 3, fianchi: 2 } }
+                    ], recovery: '60 sec tra le serie (Controllo del movimento)' },
+                    { type: 'Cardio', emoji: '🏃‍♀️', time: '10-15 min', details: ['Macchine cardio a scelta (Ellittica, Tapis roulant, o Cyclette) a intensità moderata'] },
+                    { type: 'Defaticamento', emoji: '🧘‍♀️', time: '5 min', details: ['Stretching per gambe, glutei e flessori dell\'anca'] }
                 ]
             },
             {
                 day: 'Giovedì',
-                title: 'Riposo Attivo',
+                title: 'Cardio e Recupero Attivo',
                 focus: 'Recupero',
-                duration: '40 min',
-                dailyKcal: 200,
+                duration: '35-40 min',
+                dailyKcal: 250,
                 plan: [
-                    { type: 'Attività Principale', emoji: ' leisurely walk', time: '35 min', details: ['Camminata leggera a passo moderato'] },
-                    { type: 'Flessibilità', emoji: ' stretching', time: '5 min', details: ['Stretching completo, focus su allungamenti dolci (es. Cat-Cow, Child\'s Pose)'] }
+                    { type: 'Cardio', emoji: '🏃‍♀️', time: '30-35 min', details: ['Camminata o macchine cardio a scelta (Ellittica, Tapis roulant, Cyclette) a intensità costante e leggera'] },
+                    { type: 'Defaticamento', emoji: '🧘‍♀️', time: '5 min', details: ['Stretching leggero per favorire il recupero muscolare'] }
                 ]
             },
             {
                 day: 'Venerdì',
-                title: 'Gambe, Braccia e Addome',
-                focus: 'Gambe & Braccia',
-                duration: '40 min',
-                dailyKcal: 300,
+                title: 'Upper Body, Postura & Core (Allenamento 3)',
+                focus: 'Upper Body & Postura',
+                duration: '45-50 min',
+                dailyKcal: 280,
                 plan: [
-                    { type: 'Riscaldamento', emoji: ' warming up', time: '5 min', details: ['Simile ai giorni di allenamento'] },
-                    { type: 'Esercizi Principali', emoji: '💪', time: '18-23 min', details: [
-                        { name: 'Deadlift a gambe tese (KB)', reps: '12-15 rip', sets: '3 serie', areas: { glutei: 3, gambe: 2, schiena: 2, core: 1 } },
-                        { name: 'Affondi laterali', reps: '10-12 rip / lato', sets: '3 serie', areas: { gambe: 2, glutei: 1 } },
-                        { name: 'Russian Twist (con KB)', reps: '15-20 rip / lato', sets: '3 serie', areas: { core: 3 } },
-                        { name: 'Bicep Curls (con KB)', reps: '10-12 rip', sets: '3 serie', areas: { braccia: 3 } },
-                    ], recovery: '45-60 sec tra le serie' },
-                    { type: 'Cardio', emoji: '🏃‍♀️', time: '10 min', details: ['Camminata veloce'] },
-                    { type: 'Defaticamento', emoji: '🧘‍♀️', time: '5 min', details: ['Stretching completo'] }
+                    { type: 'Riscaldamento', emoji: ' warming up', time: '10 min', details: ['3-5 min Macchine cardio (Cyclette/Ellittica/Tapis Roulant)', 'Circonduzioni braccia', 'Aperture petto dinamiche', 'Riscaldamento polsi'] },
+                    { type: 'Esercizi Principali', emoji: '🏋️‍♀️', time: '25 min', details: [
+                        { name: 'Superman alternato a terra', reps: '12 rip', sets: '3 serie', areas: { schiena: 3, postura: 3, glutei: 1 } },
+                        { name: 'Push-up facilitati (mani rialzate o ginocchia a terra)', reps: '8-10 rip', sets: '3 serie', areas: { petto: 2, braccia: 2, core: 1 } },
+                        { name: 'Alzate laterali/frontali leggere', reps: '12 rip', sets: '3 serie', areas: { spalle: 2, braccia: 1 } },
+                        { name: 'Russian Twist (piedi a terra, senza peso)', reps: '15 rip / lato', sets: '3 serie', areas: { core: 3, fianchi: 2 } }
+                    ], recovery: '60 sec tra le serie (Focus su addome contratto)' },
+                    { type: 'Cardio', emoji: '🏃‍♀️', time: '10-15 min', details: ['Macchine cardio a scelta (Ellittica, Tapis roulant, o Cyclette) a intensità moderata'] },
+                    { type: 'Defaticamento', emoji: '🧘‍♀️', time: '5 min', details: ['Stretching mirato a collo, spalle e addome'] }
                 ]
             },
             {
                 day: 'Sabato',
-                title: 'Full Body e Core',
-                focus: 'Total Body',
-                duration: '40 min',
-                dailyKcal: 300,
+                title: 'Riposo Attivo / Flessibilità',
+                focus: 'Recupero',
+                duration: '20-30 min',
+                dailyKcal: 120,
                 plan: [
-                     { type: 'Riscaldamento', emoji: ' warming up', time: '5 min', details: ['Simile ai giorni di allenamento'] },
-                    { type: 'Esercizi Principali', emoji: '🏋️‍♀️', time: '18-23 min', details: [
-                        { name: 'Squat Sumo (con KB)', reps: '12-15 rip', sets: '3 serie', areas: { gambe: 3, glutei: 3, core: 1 } },
-                        { name: 'Glute Kickbacks (con elastico)', reps: '15-20 rip / gamba', sets: '3 serie', areas: { glutei: 3 } },
-                        { name: 'Leg Raises (da terra)', reps: '15-20 rip', sets: '3 serie', areas: { core: 3 } },
-                        { name: 'Front Raise (con KB)', reps: '10-12 rip', sets: '3 serie', areas: { spalle: 2, braccia: 1 } },
-                    ], recovery: '45-60 sec tra le serie' },
-                    { type: 'Cardio', emoji: '🚶‍♀️', time: '10 min', details: ['Camminata veloce'] },
-                    { type: 'Defaticamento', emoji: '🧘‍♀️', time: '5 min', details: ['Stretching'] }
+                     { type: 'Mobilità', emoji: '🧘‍♀️', time: '20 min', details: ['Sessione di stretching completo, Pilates o Yoga dolce. Ottimo per la postura e la flessibilità.'] },
+                     { type: 'Relax', emoji: '😌', time: '10 min', details: ['Respirazione diaframmatica (aiuta il core profondo e riduce lo stress)'] }
                 ]
             },
             {
                 day: 'Domenica',
-                title: 'Riposo Attivo e Flessibilità',
-                focus: 'Recupero',
-                duration: '40 min',
-                dailyKcal: 200,
+                title: 'Riposo Totale',
+                focus: 'Riposo',
+                duration: '-',
+                dailyKcal: 0,
                 plan: [
-                    { type: 'Attività Leggera', emoji: ' leisurely walk', time: '20 min', details: ['Camminata leggera in un ambiente piacevole'] },
-                    { type: 'Mobilità', emoji: '🧘‍♀️', time: '15 min', details: ['Yoga o Pilates leggero per principianti (cerca video online)'] },
-                    { type: 'Rilassamento', emoji: '😌', time: '5 min', details: ['Respirazione profonda o meditazione'] }
+                    { type: 'Recupero', emoji: '😴', time: 'Tutto il giorno', details: ['Riposo completo in preparazione per la nuova settimana!'] }
                 ]
             }
         ];
@@ -320,7 +305,7 @@
         const chartLabels = workoutData.map(d => d.day);
         const chartFocusData = workoutData.map(d => d.focus);
         
-        const focusToValue = { 'Total Body': 3, 'Gambe & Core': 2, 'Gambe & Braccia': 2, 'Recupero': 1 };
+        const focusToValue = { 'Total Body & Core': 3, 'Lower Body & Core': 3, 'Upper Body & Postura': 3, 'Recupero': 1, 'Riposo': 0 };
         const numericFocusData = chartFocusData.map(focus => focusToValue[focus] || 0);
 
         const ctxFocus = document.getElementById('weeklyFocusChart').getContext('2d');
@@ -331,8 +316,8 @@
                 datasets: [{
                     label: 'Focus Allenamento',
                     data: numericFocusData,
-                    backgroundColor: numericFocusData.map(v => v > 1 ? '#588157' : '#a3b18a'),
-                    borderColor: numericFocusData.map(v => v > 1 ? '#344e41' : '#588157'),
+                    backgroundColor: numericFocusData.map(v => v > 1 ? '#588157' : (v === 1 ? '#a3b18a' : '#dad7cd')),
+                    borderColor: numericFocusData.map(v => v > 1 ? '#344e41' : (v === 1 ? '#588157' : '#a3b18a')),
                     borderWidth: 1,
                     borderRadius: 5
                 }]
@@ -359,9 +344,10 @@
                             color: '#3a3a3a',
                              callback: function(value, index, values) {
                                 switch(value) {
-                                    case 1: return 'Recupero';
-                                    case 2: return 'Focus Specifico';
-                                    case 3: return 'Total Body';
+                                    case 0: return 'Riposo';
+                                    case 1: return 'Recupero Attivo';
+                                    case 2: return '';
+                                    case 3: return 'Allenamento (Focus Core)';
                                     default: return '';
                                 }
                             }
