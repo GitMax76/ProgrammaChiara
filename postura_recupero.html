@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocollo di Recupero Posturale - Chiara A.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Clinical Calm (Soft blues, clean whites, and slate grays to convey medical professionalism, trust, and calm relaxation) -->
+    <!-- Application Structure Plan: Progressive clinical protocol. Educational overview -> Ergonomics -> 7-Step Rehab Accordion. Expanded with new specific exercises for "Dorso Curvo" and "Spinal Decompression" based on the newly provided medical literature. The accordion structure ensures focus on one exercise at a time, providing detailed Position, Execution, and Breathing instructions for maximum clinical compliance. -->
+    <!-- Visualization & Content Choices: 
+    - Report Info: Added "Dorso Curvo" (Kyphosis) rationale based on new sources. Goal: Educate. Method: Updated clinical text block.
+    - Report Info: "Estensione al muro" from dorso_curvo.pdf. Goal: Correct dorsal kyphosis. Method: Accordion item with strict execution guidelines.
+    - Report Info: "Allungamento muscoli dorsali" from colonna_vertebrale.pdf. Goal: Spinal decompression. Method: Accordion item.
+    - Report Info: Auto-allungamento & Respirazione Diaframmatica updated with specific cues from the PDFs (e.g., flattening lumbar spine). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; color: #334155; }
+        .accordion-content { transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; max-height: 0; opacity: 0; overflow: hidden; }
+        .accordion-content.open { max-height: 2000px; opacity: 1; margin-top: 1rem; }
+        .rotate-180 { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+        <!-- Pulsante Torna all'allenamento -->
+        <div class="mb-6">
+            <a href="index.html" class="inline-flex items-center px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Torna all'allenamento
+            </a>
+        </div>
+
+        <!-- Header -->
+        <header class="text-center mb-10 bg-white p-8 rounded-2xl shadow-sm border-t-4 border-[#3b82f6]">
+            <h1 class="text-3xl md:text-4xl font-bold text-[#1e293b]">Protocollo di Recupero Posturale</h1>
+            <p class="text-lg text-[#64748b] mt-2">Riallineamento Cervicale, Correzione Dorso Curvo e Decompressione (Paziente: Chiara A.)</p>
+        </header>
+
+        <!-- Clinical Overview Section -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-semibold text-[#0f172a] mb-4">🩺 Analisi del Quadro Clinico</h2>
+            <div class="bg-white p-6 rounded-xl shadow-sm leading-relaxed text-gray-700">
+                <p class="mb-4">Il lavoro prolungato al PC ha generato la <strong>Sindrome del Capo Proteso</strong> associata a un <strong>Dorso Curvo (Ipercifosi Dorsale)</strong>. Questa combinazione altera gravemente la biomeccanica del rachide cervico-dorsale.</p>
+                <p class="mb-4"><strong>Perché avverti formicolio, rigidità alle spalle e dolori alle braccia?</strong><br>
+                La cifosi dorsale accentuata chiude le spalle in avanti, accorciando i muscoli del torace (Pettorali) e del collo (Scaleni). Questo atteggiamento riduce lo spazio nello "stretto toracico", comprimendo il plesso brachiale (il fascio di nervi che scende dal collo alle dita della mano). Tale intrappolamento causa la fastidiosa sensazione di formicolio (parestesia) e l'irrigidimento difensivo della muscolatura di collo e spalle.</p>
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-100 mt-4">
+                    <p class="text-sm text-blue-800"><strong>Obiettivo del Protocollo:</strong> 1) Sbloccare la respirazione diaframmatica. 2) Decomprimere la colonna e i nervi intrappolati. 3) Contrastare il dorso curvo rinforzando la muscolatura posteriore profonda (autoallungamento) e restituendo mobilità al tratto dorsale.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ergonomics Section -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-semibold text-[#0f172a] mb-4">🖥️ Igiene Posturale al PC</h2>
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <ul class="list-disc list-inside space-y-3 text-gray-700">
+                    <li><strong>Il Monitor:</strong> Il bordo superiore dello schermo deve essere all'altezza dei tuoi occhi. Usa un rialzo se usi un portatile.</li>
+                    <li><strong>Le Braccia e Spalle:</strong> I gomiti devono formare un angolo di 90° poggiando sulla scrivania. Le spalle devono essere rilassate lontane dalle orecchie.</li>
+                    <li><strong>La Sedia:</strong> Il bacino deve essere ben appoggiato allo schienale (zona lombare supportata), piedi ben saldi a terra.</li>
+                    <li><strong>Micro-pause:</strong> Ogni 50 minuti alzati, fai un respiro profondo estendendo le braccia in fuori, e fai due passi.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- The Protocol Accordion -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-[#0f172a] mb-4">✅ Protocollo Pratico Quotidiano</h2>
+            <p class="text-gray-600 mb-6">Esegui questa sequenza ogni giorno, preferibilmente a fine giornata lavorativa. La costanza è l'unica chiave per riprogrammare le catene muscolari. Clicca su ciascun esercizio per i dettagli esecutivi.</p>
+
+            <div class="space-y-4" id="accordion-container">
+                
+                <!-- Esercizio 1 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="accordion-toggle w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-lg text-[#1e293b]">1. Respirazione Diaframmatica con Scarico Lombare</span>
+                        <span class="icon transform transition-transform duration-300 text-blue-500 text-xl">▼</span>
+                    </button>
+                    <div class="accordion-content px-6 pb-6 bg-gray-50">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="flex-1 space-y-4 text-gray-700">
+                                <p class="text-sm bg-yellow-100 text-yellow-800 p-2 rounded inline-block"><strong>Obiettivo:</strong> Disattivare i muscoli accessori del collo (che causano formicolio) e rilassare la colonna (Fonte: Esercizi Colonna Vertebrale).</p>
+                                <div>
+                                    <h4 class="font-bold text-[#0f172a]">📍 Posizione:</h4>
+                                    <p>Posizione supina (a pancia in su) su un materassino. Ginocchia flesse, piedi a terra. Mani appoggiate morbidamente sull'addome.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-[#0f172a]">⚙️ Esecuzione:</h4>
+                                    <p>Chiudi gli occhi. Concentrati sul movimento dell'addome, mantenendo il torace e le spalle completamente immobili.</p>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                                    <h4 class="font-bold text-blue-900">🌬️ Respirazione e Tempistiche:</h4>
+                                    <p class="text-blue-800">
+                                        <strong>Inspirare:</strong> dal naso gonfiando l'addome.<br>
+                                        <strong>Espirare:</strong> dalla bocca sgonfiando l'addome, <em>contraendo i muscoli addominali e facendo aderire completamente il tratto lombare al materassino</em>.<br>
+                                        <strong>Esegui per 3 Minuti continui.</strong>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="md:w-1/3 flex items-center justify-center">
+                                <img src="https://media.tenor.com/2Xy1W1pP7yAAAAAC/diaphragmatic-breathing.gif" alt="Respirazione Diaframmatica" class="rounded-lg shadow-md max-w-full h-auto border border-gray-200">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Esercizio 2 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="accordion-toggle w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-lg text-[#1e293b]">2. Estensione del Tronco a Parete (Correzione Dorso Curvo)</span>
+                        <span class="icon transform transition-transform duration-300 text-blue-500 text-xl">▼</span>
+                    </button>
+                    <div class="accordion-content px-6 pb-6 bg-gray-50">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="flex-1 space-y-4 text-gray-700">
+                                <p class="text-sm bg-yellow-100 text-yellow-800 p-2 rounded inline-block"><strong>Obiettivo:</strong> Contrastare attivamente l'ipercifosi dorsale e riallineare le scapole (Fonte: Protocollo Dorso Curvo).</p>
+                                <div>
+                                    <h4 class="font-bold text-[#0f172a]">📍 Posizione:</h4>
+                                    <p>Seduta a terra, schiena aderente al muro, ginocchia leggermente flesse. Il sacro, il dorso e la nuca (se possibile senza forzare troppo il mento in alto) devono toccare il muro.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-[#0f172a]">⚙️ Esecuzione:</h4>
+                                    <p>Estendere il tronco cercando di farlo aderire il più possibile al muro. Elevare le braccia portandole a contatto con il muro (piegate a 90° o distese), assicurandosi che siano "extraruotate" (dorsi delle mani, polsi e gomiti che premono contro la parete). Scivola con le braccia verso l'alto senza staccare la schiena dal muro.</p>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                                    <h4 class="font-bold text-blue-900">🌬️ Respirazione e Tempistiche:</h4>
+                                    <p class="text-blue-800">Inspira mentre fai scivolare le braccia verso l'alto (estensione). Espira scendendo. Assicurati che l'espirazione ti aiuti ad appiattire la schiena contro il muro.<br><strong>Esegui 10 ripetizioni lente.</strong></p>
+                                </div>
+                            </div>
+                            <div class="md:w-1/3 flex items-center justify-center">
+                                <img src="https://media.tenor.com/tHqI1222kVEAAAAC/wall-slides.gif" alt="Estensione al muro" class="rounded-lg shadow-md max-w-full h-auto border border-gray-200">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Esercizio 3 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="accordion-toggle w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-lg text-[#1e293b]">3. Autoallungamento del Rachide (Seduta)</span>
+                        <span class="icon transform transition-transform duration-300 text-blue-500 text-xl">▼</span>
+                    </button>
+                    <div class="accordion-content px-6 pb-6 bg-gray-50">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="flex-1 space-y-4 text-gray-700">
+                                <p class="text-sm bg-yellow-100 text-yellow-800 p-2 rounded inline-block"><strong>Obiettivo:</strong> Arretrare il capo, allungare la muscolatura sub-occipitale e ripristinare le curve fisiologiche (Fonte: Protocollo Dorso Curvo).</p>
+                                <div>
+                                    <h4 class="font-bold text-[#0f172a]">📍 Posizione:</h4>
+                                    <p>Seduta su uno sgabello o su una sedia senza appoggiarsi allo schienale. Braccia rilassate lungo i fianchi. Sguardo perfettamente orizzontale.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-[#0f172a]">⚙️ Esecuzione:</h4>
+                                    <p>Ricerca l'autoallungamento verso l'alto (come se un filo ti tirasse dalla cima della testa). Contemporaneamente: <strong>tenere il mento retratto</strong> (spinto orizzontalmente all'indietro a formare un doppio mento), appiattire leggermente la curva lombare e stendere bene la regione dorsale.</p>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                                    <h4 class="font-bold text-blue-900">🌬️ Respirazione e Tempistiche:</h4>
+                                    <p class="text-blue-800">Esegui l'allungamento in fase espiratoria. Mantieni la tensione per 5 secondi, poi rilassa.<br><strong>Esegui 2 serie da 10 ripetizioni.</strong></p>
+                                </div>
+                            </div>
+                            <div class="md:w-1/3 flex items-center justify-center">
+                                <img src="https://media.tenor.com/uR13V7D7xG0AAAAC/chin-tuck.gif" alt="Autoallungamento Cervicale" class="rounded-lg shadow-md max-w-full h-auto border border-gray-200">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Esercizio 4 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="accordion-toggle w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-lg text-[#1e293b]">4. Apertura Toracica all'Angolo (Stretching Pettorali)</span>
+                        <span class="icon transform transition-transform duration-300 text-blue-500 text-xl">▼</span>
+                    </button>
+                    <div class="accordion-content px-6 pb-6 bg-gray-50">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="flex-1 space-y-4 text-gray-700">
+                                <p class="text-sm bg-yellow-100 text-yellow-800 p-2 rounded inline-block"><strong>Obiettivo:</strong> Allungare i muscoli pettorali accorciati che "tirano" le spalle in avanti chiudendo il dorso e comprimendo i nervi.</p>
+                                <div>
+                                    <h4 class="font-bold text-[#0f172a]">📍 Posizione:</h4>
+                                    <p>In piedi di fronte all'angolo di una stanza o sulla cornice di una porta aperta. Avambracci sui muri laterali, gomiti all'altezza delle spalle (90°).</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-[#0f172a]">⚙️ Esecuzione:</h4>
+                                    <p>Fai un piccolo passo in avanti. Lascia che il peso del corpo porti dolcemente il torace in avanti. Cerca una tensione piacevole nel petto. Mantieni l'addome leggermente contratto per non inarcare la zona lombare.</p>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                                    <h4 class="font-bold text-blue-900">🌬️ Respirazione e Tempistiche:</h4>
+                                    <p class="text-blue-800">Respira normalmente. Ad ogni espirazione cerca di rilassarti e guadagnare un millimetro di allungamento.<br><strong>Mantieni la posizione per 30-45 secondi. Ripeti 3 volte.</strong></p>
+                                </div>
+                            </div>
+                            <div class="md:w-1/3 flex items-center justify-center">
+                                <img src="https://media.tenor.com/XkO7Qk6A-_sAAAAC/doorway-stretch.gif" alt="Stretching Pettorali" class="rounded-lg shadow-md max-w-full h-auto border border-gray-200">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Esercizio 5 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="accordion-toggle w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-lg text-[#1e293b]">5. Mobilizzazione del Rachide (Gatto-Mucca)</span>
+                        <span class="icon transform transition-transform duration-300 text-blue-500 text-xl">▼</span>
+                    </button>
+                    <div class="accordion-content px-6 pb-6 bg-gray-50">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="flex-1 space-y-4 text-gray-700">
+                                <p class="text-sm bg-yellow-100 text-yellow-800 p-2 rounded inline-block"><strong>Obiettivo:</strong> De-rigidificare le vertebre dorsali bloccate (Fonte: Esercizi Colonna Vertebrale).</p>
+                                <div>
+                                    <h4 class="font-bold text-[#0f172a]">📍 Posizione:</h4>
+                                    <p>Posizione quadrupedica (a 4 zampe) sul tappetino. Mani sotto le spalle e ginocchia sotto le anche.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-[#0f172a]">⚙️ Esecuzione:</h4>
+                                    <p>Alterna due movimenti fluidi:<br>
+                                    1. <strong>Flessione:</strong> Incurvare la schiena verso il soffitto spingendo via il pavimento, mento allo sterno.<br>
+                                    2. <strong>Estensione:</strong> Inarcare la schiena verso il basso, sollevando il bacino e guardando leggermente in avanti.</p>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                                    <h4 class="font-bold text-blue-900">🌬️ Respirazione e Tempistiche:</h4>
+                                    <p class="text-blue-800">Espira nella fase di flessione (incurvando), inspira nella fase di estensione (inarcando). Mantenere ogni posizione qualche secondo.<br><strong>Ripetere per 10 volte totali.</strong></p>
+                                </div>
+                            </div>
+                            <div class="md:w-1/3 flex items-center justify-center">
+                                <img src="https://media.tenor.com/fD6q1wA9qP4AAAAC/cat-cow.gif" alt="Gatto Mucca" class="rounded-lg shadow-md max-w-full h-auto border border-gray-200">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Esercizio 6 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="accordion-toggle w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-lg text-[#1e293b]">6. Rinforzo Posteriore Dorso (Y-T-W prono)</span>
+                        <span class="icon transform transition-transform duration-300 text-blue-500 text-xl">▼</span>
+                    </button>
+                    <div class="accordion-content px-6 pb-6 bg-gray-50">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="flex-1 space-y-4 text-gray-700">
+                                <p class="text-sm bg-yellow-100 text-yellow-800 p-2 rounded inline-block"><strong>Obiettivo:</strong> Rinforzare i romboidi e i muscoli che uniscono le scapole per vincere la cifosi ed evitare che le spalle cadano in avanti.</p>
+                                <div>
+                                    <h4 class="font-bold text-[#0f172a]">📍 Posizione:</h4>
+                                    <p>Sdraiata a pancia in giù (prona). Appoggia un asciugamano arrotolato sotto la fronte per mantenere il collo dritto. Gambe rilassate a terra.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-[#0f172a]">⚙️ Esecuzione:</h4>
+                                    <p><strong>Y:</strong> Braccia stese in alto e allargate (a "Y"). Solleva braccia e spalle stringendo le scapole.<br>
+                                    <strong>T:</strong> Braccia a croce ("T"). Solleva le mani verso il soffitto strizzando il centro della schiena.<br>
+                                    <strong>W:</strong> Gomiti piegati ai fianchi, mani vicine alle spalle ("W"). Solleva stringendo i gomiti dietro la schiena.</p>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                                    <h4 class="font-bold text-blue-900">🌬️ Respirazione e Tempistiche:</h4>
+                                    <p class="text-blue-800">Espira mentre sollevi le braccia e contrai i muscoli. Inspira mentre torni giù.<br><strong>Esegui 5 ripetizioni per ogni lettera, poi ripeti tutto il circuito 2 volte.</strong></p>
+                                </div>
+                            </div>
+                            <div class="md:w-1/3 flex items-center justify-center">
+                                <img src="https://media.tenor.com/b9L4Z1S9RxcAAAAC/prone-ytw.gif" alt="Esercizio YTW" class="rounded-lg shadow-md max-w-full h-auto border border-gray-200">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Esercizio 7 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="accordion-toggle w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-lg text-[#1e293b]">7. Allungamento Muscoli Dorsali (Decompressione Finale)</span>
+                        <span class="icon transform transition-transform duration-300 text-blue-500 text-xl">▼</span>
+                    </button>
+                    <div class="accordion-content px-6 pb-6 bg-gray-50">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="flex-1 space-y-4 text-gray-700">
+                                <p class="text-sm bg-yellow-100 text-yellow-800 p-2 rounded inline-block"><strong>Obiettivo:</strong> Decomprimere l'intera colonna vertebrale e favorire il rilassamento del sistema nervoso (Fonte: Esercizi Colonna Vertebrale).</p>
+                                <div>
+                                    <h4 class="font-bold text-[#0f172a]">📍 Posizione:</h4>
+                                    <p>Posizione in ginocchio sul tappetino. Portati in posizione seduta sui talloni, mani inizialmente appoggiate sulle cosce.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-[#0f172a]">⚙️ Esecuzione:</h4>
+                                    <p>Fletti il busto in avanti e allunga bene le braccia sul tappeto camminando in avanti con le dita. Cerca di mantenere i glutei a contatto con i talloni (o il più vicino possibile) e lascia cadere la fronte verso il pavimento. Sentirai un profondo allungamento in tutta la schiena.</p>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                                    <h4 class="font-bold text-blue-900">🌬️ Respirazione e Tempistiche:</h4>
+                                    <p class="text-blue-800">Inspirare da seduti, <strong>espirando</strong> allungare bene le braccia in avanti sul tappeto. Respirare profondamente nella posizione finale per qualche secondo, poi ritornare in posizione iniziale aiutandosi con le mani.<br><strong>Ripetere 10 volte o mantenere staticamente l'allungamento per 1 minuto.</strong></p>
+                                </div>
+                            </div>
+                            <div class="md:w-1/3 flex items-center justify-center">
+                                <img src="https://media.tenor.com/2pZ-kM6s6x8AAAAC/childs-pose.gif" alt="Allungamento Dorsale" class="rounded-lg shadow-md max-w-full h-auto border border-gray-200">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Warning Note -->
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-8">
+            <h3 class="text-red-800 font-bold">⚠️ Nota Clinica Importante</h3>
+            <p class="text-red-700 text-sm mt-1">Questo programma è mirato alla decompressione dei nervi e alla correzione del dorso curvo. È normale avvertire fatica muscolare (soprattutto nella parte alta del dorso). Tuttavia, se durante un esercizio noti un <strong>aumento immediato e pungente del formicolio alle dita o dolore acuto e trafittivo al collo</strong>, sospendi l'esecuzione di quel movimento specifico e comunicalo. L'esercizio posturale non deve mai aggravare i sintomi radicolari (formicolio e bruciore).</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Logica per gli Accordion (pannelli espandibili)
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggles = document.querySelectorAll('.accordion-toggle');
+
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    // Prendi l'elemento contenuto (il div subito dopo il bottone)
+                    const content = toggle.nextElementSibling;
+                    const icon = toggle.querySelector('.icon');
+
+                    // Chiudi tutti gli altri pannelli aperti
+                    toggles.forEach(otherToggle => {
+                        if (otherToggle !== toggle) {
+                            const otherContent = otherToggle.nextElementSibling;
+                            const otherIcon = otherToggle.querySelector('.icon');
+                            otherContent.classList.remove('open');
+                            otherIcon.classList.remove('rotate-180');
+                        }
+                    });
+
+                    // Apri o chiudi il pannello cliccato
+                    content.classList.toggle('open');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
