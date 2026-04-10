@@ -1,48 +1,644 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benvenuto nel Tuo Programma di Benessere</title>
-
-    <link rel="icon" href="website-icon.png" type="image/png">
-
-    <meta property="og:title" content="Il Tuo Programma di Benessere con Chiara Amaturo">
-    <meta property="og:description" content="Scopri il tuo programma alimentare e di allenamento personalizzato per raggiungere i tuoi obiettivi di benessere.">
-    <meta property="og:image" content="https://gitmax76.github.io/ProgrammaChiara/website-icon.png"> <meta property="og:url" content="https://gitmax76.github.io/ProgrammaChiara/"> <meta property="og:type" content="website">
-    
+    <title>Programma Chiara A.</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Earthy Calm (Warm neutrals like beige/off-white, soft brown text, muted green accent for consistency with the diet app) -->
+    <!-- Application Structure Plan: The SPA maintains its dashboard layout but is updated to reflect a 5-day hybrid split (3 days Gym, 2 days Home). Navigation tabs are mapped to the days of the week, with clear sub-labels indicating the location (Palestra/Casa). The charts dynamically adapt to show the difference in intensity and focus between home functional training and gym isotonic training, always highlighting the requested core/posture engagement. -->
+    <!-- Visualization & Content Choices: 
+    - Report Info: 5-day hybrid workout plan (Palestra/Casa). Goal: Organize & Inform. Method: Interactive daily schedule cards with emoticons. Interaction: User clicks a day button to display that day's full workout. Justification: Easy to follow during a workout, clear distinction between home and gym equipment.
+    - Report Info: "Linee Guida Fondamentali". Goal: Inform. Method: Collapsible text block. Interaction: Click to expand/collapse. Justification: Keeps important reference information accessible.
+    - Report Info: Weekly workout structure. Goal: Visualize the weekly rhythm (Gym vs Home vs Rest). Method: Bar Chart (Chart.js/Canvas). Interaction: Static chart displaying the focus for each day. Justification: Shows the balance between different training environments.
+    - Report Info: Estimated calories burned per session. Goal: Inform about energy expenditure. Method: Bar Chart (Chart.js/Canvas). Interaction: Static chart.
+    - Report Info: Stimulated muscle areas (High focus on Core & Posture). Goal: Inform about muscle engagement. Method: Bar Chart (Chart.js/Canvas). Interaction: Static chart. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .active-day {
+            background-color: #344e41 !important;
+            color: #ffffff !important;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
     </style>
 </head>
-<body class="bg-[#fdfaf6] text-[#3a3a3a] flex items-center justify-center min-h-screen p-4">
 
-    <div class="container mx-auto max-w-2xl bg-white rounded-xl shadow-lg p-8 text-center">
-        <header class="mb-8">
-            <h1 class="text-4xl md:text-5xl font-bold text-[#344e41] mb-4">Benvenuta Sig.ra Chiara Amaturo!</h1>
-            <p class="text-lg text-[#588157]">Scegli il programma che desideri consultare.</p>
+<body class="bg-[#fdfaf6] text-[#3a3a3a]">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-8 animate-fade-in">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#344e41]">Programma Chiara A.
+            </h1>
+            <p class="text-lg text-[#588157] mt-2 mb-6">"50 minuti al giorno per postura, addome forte e tonificazione!"</p>
+            <div class="mt-6">
+                <a href="alimentazione.html" class="inline-flex items-center gap-2 px-8 py-3 bg-[#e29578] text-white text-lg font-bold rounded-full shadow-lg hover:shadow-xl hover:bg-[#d58466] hover:-translate-y-1 transition-all duration-300">
+                    🥗 Vai al Piano Alimentare
+                </a>
+            </div>
         </header>
 
-        <main class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <a href="alimentazione.html" class="block">
-                <button class="w-full px-6 py-4 bg-[#a3b18a] text-white rounded-full text-xl font-semibold hover:bg-[#588157] transition-colors duration-300 shadow-md">
-                    🍎 Programma Alimentare
-                </button>
-            </a>
-            <a href="allenamento.html" class="block">
-                <button class="w-full px-6 py-4 bg-[#a3b18a] text-white rounded-full text-xl font-semibold hover:bg-[#588157] transition-colors duration-300 shadow-md">
-                    🏋️‍♀️ Programma di Allenamento
-                </button>
-            </a>
+        <main class="animate-fade-in delay-200">
+            <!-- Principles Section -->
+            <section class="mb-8 bg-white/50 rounded-lg shadow-sm">
+                <div id="principles-toggle" class="p-4 cursor-pointer flex justify-between items-center">
+                    <h2 class="text-2xl font-semibold text-[#3a5a40]">🏆 Linee Guida: Palestra & Casa</h2>
+                    <span id="principles-arrow" class="transform transition-transform duration-300">▼</span>
+                </div>
+                <div id="principles-content" class="hidden p-6 border-t border-gray-200">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2 text-[#344e41]">Focus dell'Allenamento</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li><strong>Palestra (3 gg):</strong> Utilizzo di macchine isotoniche per isolare i
+                                    muscoli in sicurezza, con enfasi su macchine per l'addome e cardio strutturato.</li>
+                                <li><strong>Casa (2 gg):</strong> Allenamento funzionale con TRX, Kettlebell (8kg),
+                                    elastici e tappetino. Ottimo per la stabilizzazione del core profondo.</li>
+                                <li><strong>Durata Fissa (50 min):</strong> 10' Riscaldamento + 25' Esercizi Centrali +
+                                    10' Cardio finale + 5' Defaticamento.</li>
+                                <li><strong>Postura e Addome:</strong> Ogni sessione include movimenti progettati per
+                                    correggere la postura e tonificare il girovita.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2 text-[#344e41]">Consigli per l'Attrezzatura</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li><strong>TRX (Casa):</strong> Mantieni sempre il corpo in tensione (come una tavola)
+                                    per attivare l'addome in ogni esercizio.</li>
+                                <li><strong>Elastici (Casa):</strong> Usa movimenti lenti e controllati, specialmente
+                                    nella fase di ritorno elastico.</li>
+                                <li><strong>Macchine Isotoniche (Palestra):</strong> Regola i sedili in modo che le
+                                    articolazioni siano allineate ai perni della macchina. Chiedi se hai dubbi!</li>
+                                <li><strong>Respirazione:</strong> Espira nella fase di sforzo massimo, inspira tornando
+                                    alla posizione di partenza.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation -->
+            <nav class="flex flex-wrap justify-center gap-2 mb-8">
+                <button data-day="0"
+                    class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Lunedì
+                    (Pal 1)</button>
+                <button data-day="1"
+                    class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Martedì
+                    (Casa 1)</button>
+                <button data-day="2"
+                    class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Mercoledì
+                    (Pal 2)</button>
+                <button data-day="3"
+                    class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Giovedì
+                    (Casa 2)</button>
+                <button data-day="4"
+                    class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Venerdì
+                    (Pal 3)</button>
+                <button data-day="5"
+                    class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Sabato
+                    (Riposo)</button>
+                <button data-day="6"
+                    class="day-btn px-4 py-2 rounded-full bg-[#a3b18a] text-white transition-colors duration-300 hover:bg-[#588157]">Domenica
+                    (Riposo)</button>
+            </nav>
+
+            <!-- Dynamic Content -->
+            <section id="workout-plan" class="bg-white rounded-xl shadow p-6 min-h-[400px]">
+                <!-- Workout content will be injected here -->
+            </section>
+
+            <!-- Visualization Section -->
+            <section class="mt-12">
+                <h2 class="text-2xl font-semibold text-center text-[#3a5a40] mb-4">La Tua Settimana Ibrida in Sintesi
+                </h2>
+                <p class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">Questa sezione offre una panoramica grafica
+                    del tuo programma su 5 giorni, illustrando l'alternanza tra il lavoro sulle macchine in palestra e
+                    quello funzionale a casa, con un'altissima concentrazione su addome e postura.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                    <div class="bg-white p-4 rounded-xl shadow chart-container">
+                        <h3 class="text-lg font-semibold text-center text-[#3a5a40] mb-4">Modalità di Allenamento per
+                            Giorno</h3>
+                        <canvas id="weeklyFocusChart"></canvas>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow chart-container">
+                        <h3 class="text-lg font-semibold text-center text-[#3a5a40] mb-4">Calorie Bruciate Stimate per
+                            Sessione</h3>
+                        <canvas id="kcalBurnedChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow chart-container mt-8">
+                    <h3 class="text-lg font-semibold text-center text-[#3a5a40] mb-4">Aree Muscolari Stimolate (Focus
+                        Addome/Postura)</h3>
+                    <canvas id="stimulatedAreasChart"></canvas>
+                </div>
+
+            </section>
+
         </main>
 
-        <footer class="mt-12 text-gray-500">
-            <p>&copy; 2025 Il Tuo Programma di Benessere. Realizzato da MAX con cura per te.</p>
+        <footer class="text-center mt-12 text-gray-500">
+            <p>&copy; 2026 Il Tuo Programma di Benessere. Realizzato con cura per te.</p>
         </footer>
     </div>
 
+    <script>
+        const workoutData = [
+            {
+                day: 'Lunedì',
+                title: 'Palestra 1 (Lower Body & Core)',
+                focus: 'Palestra (Isotonico)',
+                duration: '50 min',
+                dailyKcal: 330,
+                plan: [
+                    { type: 'Riscaldamento', emoji: '🏃‍♀️', time: '10 min', details: ['Macchine cardio: Tapis Roulant o Ellittica (intensità progressiva)'] },
+                    {
+                        type: 'Esercizi Principali (Isotonici)', emoji: '🏋️‍♀️', time: '25 min', details: [
+                            { name: 'Leg Press (Gambe/Glutei sicuri)', reps: '12 rip', sets: '3 serie', areas: { gambe: 3, glutei: 2 } },
+                            { name: 'Leg Curl seduta (Flessori della coscia)', reps: '12 rip', sets: '3 serie', areas: { gambe: 2 } },
+                            { name: 'Abductor Machine (Esterno cosce e fianchi)', reps: '15 rip', sets: '3 serie', areas: { fianchi: 3, glutei: 2 } },
+                            { name: 'Crunch Machine (Addome controllato)', reps: '15 rip', sets: '3 serie', areas: { core: 4 } }
+                        ], recovery: '60 sec tra le serie (movimenti lenti sulle macchine)'
+                    },
+                    { type: 'Cardio Finale', emoji: '🚴‍♀️', time: '10 min', details: ['Cyclette o Step a intensità moderata'] },
+                    { type: 'Defaticamento', emoji: '🧘‍♀️', time: '5 min', details: ['Stretching focalizzato su gambe, glutei e zona lombare'] }
+                ]
+            },
+            {
+                day: 'Martedì',
+                title: 'Casa 1 (Total Body: TRX & Kettlebell)',
+                focus: 'Casa (Funzionale)',
+                duration: '50 min',
+                dailyKcal: 310,
+                plan: [
+                    { type: 'Riscaldamento', emoji: '🌳', time: '10 min', details: ['Camminata veloce al parco o intorno al quartiere'] },
+                    {
+                        type: 'Esercizi Principali (Funzionale)', emoji: '💪', time: '25 min', details: [
+                            { name: 'Squat al TRX o Goblet Squat (con KB 8kg)', reps: '15 rip', sets: '3 serie', areas: { gambe: 2, glutei: 2, core: 1 } },
+                            { name: 'Rematore al TRX (Postura e Schiena)', reps: '12 rip', sets: '3 serie', areas: { schiena: 3, postura: 3, core: 1 } },
+                            { name: 'Push-up al TRX o a terra sulle ginocchia', reps: '10 rip', sets: '3 serie', areas: { petto: 2, braccia: 1, core: 2 } },
+                            { name: 'Russian Twist a terra con Kettlebell (8kg)', reps: '15 rip / lato', sets: '3 serie', areas: { core: 3, fianchi: 2 } }
+                        ], recovery: '60 sec tra le serie (mantieni l\'addome sempre in tensione)'
+                    },
+                    { type: 'Cardio Finale', emoji: '🚶‍♀️', time: '10 min', details: ['Camminata al parco a passo sostenuto'] },
+                    { type: 'Defaticamento', emoji: '🧘‍♀️', time: '5 min', details: ['Stretching sul tappetino (Cat-Cow, Child\'s Pose)'] }
+                ]
+            },
+            {
+                day: 'Mercoledì',
+                title: 'Palestra 2 (Upper Body & Postura)',
+                focus: 'Palestra (Isotonico)',
+                duration: '50 min',
+                dailyKcal: 320,
+                plan: [
+                    { type: 'Riscaldamento', emoji: '🚴‍♀️', time: '10 min', details: ['Macchine cardio: Cyclette o Vogatore (ottimo per la schiena)'] },
+                    {
+                        type: 'Esercizi Principali (Isotonici)', emoji: '🏋️‍♀️', time: '25 min', details: [
+                            { name: 'Lat Machine presa larga (Schiena/Postura)', reps: '12 rip', sets: '3 serie', areas: { schiena: 3, postura: 3 } },
+                            { name: 'Chest Press (Pettorali in sicurezza)', reps: '12 rip', sets: '3 serie', areas: { petto: 2, braccia: 1 } },
+                            { name: 'Pulley Basso (Dorso e allineamento spalle)', reps: '12 rip', sets: '3 serie', areas: { schiena: 2, postura: 3, braccia: 1 } },
+                            { name: 'Rotary Torso Machine o Woodchopper ai cavi', reps: '12 rip / lato', sets: '3 serie', areas: { core: 3, fianchi: 3 } }
+                        ], recovery: '60 sec tra le serie (focus sulle scapole vicine)'
+                    },
+                    { type: 'Cardio Finale', emoji: '🏃‍♀️', time: '10 min', details: ['Tapis roulant in pendenza leggera (camminata)'] },
+                    { type: 'Defaticamento', emoji: '🧘‍♀️', time: '5 min', details: ['Stretching per pettorali, spalle e dorso al palco spalliera'] }
+                ]
+            },
+            {
+                day: 'Giovedì',
+                title: 'Casa 2 (Core, Glutei & Bande Elastiche)',
+                focus: 'Casa (Funzionale)',
+                duration: '50 min',
+                dailyKcal: 300,
+                plan: [
+                    { type: 'Riscaldamento', emoji: '🌳', time: '10 min', details: ['Camminata leggera al parco'] },
+                    {
+                        type: 'Esercizi Principali (Elastici e Tappetino)', emoji: '🔥', time: '25 min', details: [
+                            { name: 'Stacco a gambe tese con Kettlebell (8kg)', reps: '12 rip', sets: '3 serie', areas: { glutei: 3, schiena: 2, gambe: 1 } },
+                            { name: 'Camminata laterale con elastici (sopra le ginocchia)', reps: '15 passi / lato', sets: '3 serie', areas: { fianchi: 3, glutei: 2 } },
+                            { name: 'Bicep Curl con elastici a maniglie', reps: '12 rip', sets: '3 serie', areas: { braccia: 3 } },
+                            { name: 'Plank sul tappetino (o TRX Plank)', reps: '40 sec', sets: '3 serie', areas: { core: 4, postura: 2 } }
+                        ], recovery: '45-60 sec tra le serie'
+                    },
+                    { type: 'Cardio Finale', emoji: '🚶‍♀️', time: '10 min', details: ['Camminata veloce o corsetta leggera al parco'] },
+                    { type: 'Defaticamento', emoji: '🧘‍♀️', time: '5 min', details: ['Stretching completo sul tappetino'] }
+                ]
+            },
+            {
+                day: 'Venerdì',
+                title: 'Palestra 3 (Full Body Isotonico & Core)',
+                focus: 'Palestra (Isotonico)',
+                duration: '50 min',
+                dailyKcal: 330,
+                plan: [
+                    { type: 'Riscaldamento', emoji: '🏃‍♀️', time: '10 min', details: ['Macchine cardio: Ellittica (coinvolge tutto il corpo)'] },
+                    {
+                        type: 'Esercizi Principali (Isotonici)', emoji: '🏋️‍♀️', time: '25 min', details: [
+                            { name: 'Glute Machine (Glutei isolati)', reps: '12 rip', sets: '3 serie', areas: { glutei: 3 } },
+                            { name: 'Shoulder Press Machine (Spalle sicure)', reps: '12 rip', sets: '3 serie', areas: { spalle: 3, postura: 1 } },
+                            { name: 'Ercolina Tricipiti ai cavi (Braccia)', reps: '12 rip', sets: '3 serie', areas: { braccia: 3 } },
+                            { name: 'Crunch inverso su panca reclinata', reps: '15 rip', sets: '3 serie', areas: { core: 3 } }
+                        ], recovery: '60 sec tra le serie'
+                    },
+                    { type: 'Cardio Finale', emoji: '🚴‍♀️', time: '10 min', details: ['Macchina cardio a scelta (variando rispetto al riscaldamento)'] },
+                    { type: 'Defaticamento', emoji: '🧘‍♀️', time: '5 min', details: ['Stretching globale alle spalliere o tappetino palestra'] }
+                ]
+            },
+            {
+                day: 'Sabato',
+                title: 'Riposo Attivo',
+                focus: 'Recupero',
+                duration: '30 min',
+                dailyKcal: 120,
+                plan: [
+                    { type: 'Attività Libera', emoji: '🌳', time: '30 min', details: ['Passeggiata di piacere, giardinaggio o yoga leggero a casa.'] },
+                    { type: 'Relax', emoji: '😌', time: '-', details: ['Mantieni alta l\'idratazione e ascolta il corpo.'] }
+                ]
+            },
+            {
+                day: 'Domenica',
+                title: 'Riposo Totale',
+                focus: 'Riposo',
+                duration: '-',
+                dailyKcal: 0,
+                plan: [
+                    { type: 'Recupero', emoji: '😴', time: 'Tutto il giorno', details: ['Riposo muscolare completo in preparazione della nuova settimana.'] }
+                ]
+            }
+        ];
+
+        // Dizionario delle GIF animate mappato sulla cartella locale (risoluzione 360x360) utilizzando il file sample json
+        const exerciseGifs = {
+            // Palestra 1
+            "Leg Press (Gambe/Glutei sicuri)": "./exercisedb_v1_sample/gifs_360x360/2Qh2J1e.gif",
+            "Leg Curl seduta (Flessori della coscia)": "./exercisedb_v1_sample/gifs_360x360/7zdxRTl.gif",
+            "Abductor Machine (Esterno cosce e fianchi)": "./exercisedb_v1_sample/gifs_360x360/6sYyrRX.gif",
+            "Crunch Machine (Addome controllato)": "./exercisedb_v1_sample/gifs_360x360/8xUv4J7.gif",
+
+            // Casa 1
+            "Squat al TRX o Goblet Squat (con KB 8kg)": "./exercisedb_v1_sample/gifs_360x360/5bpPTHv.gif",
+            "Rematore al TRX (Postura e Schiena)": "./exercisedb_v1_sample/gifs_360x360/7I6LNUG.gif",
+            "Push-up al TRX o a terra sulle ginocchia": "./exercisedb_v1_sample/gifs_360x360/05Cf2v8.gif",
+            "Russian Twist a terra con Kettlebell (8kg)": "./exercisedb_v1_sample/gifs_360x360/6sYyrRX.gif",
+
+            // Palestra 2
+            "Lat Machine presa larga (Schiena/Postura)": "./exercisedb_v1_sample/gifs_360x360/7F1DVzn.gif",
+            "Chest Press (Pettorali in sicurezza)": "./exercisedb_v1_sample/gifs_360x360/5v7KYld.gif",
+            "Pulley Basso (Dorso e allineamento spalle)": "./exercisedb_v1_sample/gifs_360x360/7I6LNUG.gif",
+            "Rotary Torso Machine o Woodchopper ai cavi": "./exercisedb_v1_sample/gifs_360x360/6bOA1Oi.gif",
+
+            // Casa 2
+            "Stacco a gambe tese con Kettlebell (8kg)": "./exercisedb_v1_sample/gifs_360x360/8urJS9b.gif",
+            "Camminata laterale con elastici (sopra le ginocchia)": "./exercisedb_v1_sample/gifs_360x360/6HiHHe0.gif",
+            "Bicep Curl con elastici a maniglie": "./exercisedb_v1_sample/gifs_360x360/3XFdb1Z.gif",
+            "Plank sul tappetino (o TRX Plank)": "./exercisedb_v1_sample/gifs_360x360/8K0w2yA.gif",
+
+            // Palestra 3
+            "Glute Machine (Glutei isolati)": "./exercisedb_v1_sample/gifs_360x360/2ORFMoR.gif",
+            "Shoulder Press Machine (Spalle sicure)": "./exercisedb_v1_sample/gifs_360x360/3eGE2JC.gif",
+            "Ercolina Tricipiti ai cavi (Braccia)": "./exercisedb_v1_sample/gifs_360x360/5uFK1xr.gif",
+            "Crunch inverso su panca reclinata": "./exercisedb_v1_sample/gifs_360x360/8K0w2yA.gif"
+        };
+
+        const workoutPlanContainer = document.getElementById('workout-plan');
+        const dayButtons = document.querySelectorAll('.day-btn');
+
+        function displayWorkout(dayIndex) {
+            const dayData = workoutData[dayIndex];
+            workoutPlanContainer.innerHTML = '';
+
+            // Trigger reflow per far ripartire l'animazione al cambio di giorno
+            workoutPlanContainer.classList.remove('animate-fade-in');
+            void workoutPlanContainer.offsetWidth; // Trigger reflow
+            workoutPlanContainer.classList.add('animate-fade-in');
+
+            const header = `
+                <div class="text-center mb-6">
+                    <h2 class="text-3xl font-bold text-[#344e41]">${dayData.day} - ${dayData.title}</h2>
+                    <p class="text-lg text-gray-500">Durata: ${dayData.duration}</p>
+                </div>
+            `;
+            workoutPlanContainer.innerHTML += header;
+
+            const grid = document.createElement('div');
+            grid.className = 'space-y-4';
+
+            dayData.plan.forEach((block, blockIndex) => {
+                let detailsHtml = '<ul class="list-disc list-inside space-y-2 pl-4 text-gray-600 mt-2">';
+                if (block.type.includes('Esercizi Principali')) {
+                    block.details.forEach((ex, exIndex) => {
+
+                        // Recupera la GIF dal dizionario, o usa un placeholder se non esiste
+                        const gifUrl = exerciseGifs[ex.name] || `https://placehold.co/400x300/e9ecef/3a5a40?text=GIF+Esecuzione%5Cn${encodeURIComponent(ex.name.split('(')[0].trim())}`;
+
+                        detailsHtml += `
+                       <li class="border-b border-gray-100 pb-3 last:border-0 last:pb-0">
+                           <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mt-1">
+                               <span><strong>${ex.name}:</strong> ${ex.reps}, ${ex.sets}</span>
+                               <button class="toggle-gif-btn shrink-0 text-xs bg-white border border-[#a3b18a] text-[#3a5a40] font-medium px-3 py-1.5 rounded shadow-sm hover:bg-[#a3b18a] hover:text-white transition-colors duration-300" data-gif-id="gif-${dayIndex}-${blockIndex}-${exIndex}">
+                                   🎥 Mostra Esecuzione
+                               </button>
+                           </div>
+                           <div id="gif-${dayIndex}-${blockIndex}-${exIndex}" class="hidden mt-3 text-center">
+                               <img src="${gifUrl}" alt="${ex.name}" class="rounded-lg shadow-sm max-w-full h-auto mx-auto border border-gray-200" loading="lazy" style="max-height: 250px;">
+                               <p class="text-[10px] text-gray-400 mt-1 italic">Vuoi usare i video di MuscleWiki o ExRx? Scaricali, salvali nella tua repo e sostituisci il link nell'oggetto exerciseGifs!</p>
+                           </div>
+                       </li>`;
+                    });
+                } else {
+                    block.details.forEach(item => {
+                        detailsHtml += `<li class="mb-1">${item}</li>`;
+                    });
+                }
+                detailsHtml += '</ul>';
+
+                if (block.recovery) {
+                    detailsHtml += `<p class="text-sm text-gray-500 mt-2 pl-4"><em>Recupero: ${block.recovery}</em></p>`;
+                }
+
+                const blockCard = `
+                    <div class="bg-[#f8f9fa]/60 rounded-lg p-4 flex items-start space-x-4 transition-shadow hover:shadow-md">
+                        <span class="text-3xl pt-1">${block.emoji}</span>
+                        <div>
+                            <h3 class="font-semibold text-xl text-[#588157]">${block.type} <span class="text-base font-normal text-gray-500">(${block.time})</span></h3>
+                            <div class="mt-2">
+                                ${detailsHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += blockCard;
+            });
+            workoutPlanContainer.appendChild(grid);
+
+            // Sezione Note e Contatto Coach
+            const notesValue = localStorage.getItem(`workout_notes_${dayData.day}`) || '';
+            const interactionSection = document.createElement('div');
+            interactionSection.className = 'mt-8 bg-[#e9ecef]/50 p-5 rounded-lg border border-gray-200';
+            interactionSection.innerHTML = `
+                <h3 class="font-semibold text-lg text-[#3a5a40] mb-2">📝 Le tue Note e Domande</h3>
+                <p class="text-sm text-gray-600 mb-3">Segna qui i pesi usati, i tuoi progressi o dubbi. Le note rimangono salvate in questo dispositivo.</p>
+                <textarea id="daily-notes" rows="3" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#588157] focus:border-transparent" placeholder="Es. Oggi ho aumentato il kettlebell a 10kg! Come devo tenere la schiena nel rematore?">${notesValue}</textarea>
+                <div class="mt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <span id="save-status" class="text-sm text-[#588157] font-medium italic"></span>
+                    <a href="https://wa.me/+393295644852?text=Ciao,%20ho%20una%20domanda%20riguardo%20l'allenamento%20di%20${dayData.day}:%20" target="_blank" class="w-full sm:w-auto flex items-center justify-center space-x-2 bg-[#25D366] text-white px-6 py-2 rounded-full font-semibold shadow hover:bg-[#1DA851] transition-colors duration-300">
+                        <span>💬</span>
+                        <span>Scrivimi su WA</span>
+                    </a>
+                </div>
+            `;
+            workoutPlanContainer.appendChild(interactionSection);
+
+            // Logica visualizzazione GIF
+            const gifButtons = workoutPlanContainer.querySelectorAll('.toggle-gif-btn');
+            gifButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const gifId = btn.getAttribute('data-gif-id');
+                    const gifContainer = document.getElementById(gifId);
+                    if (gifContainer.classList.contains('hidden')) {
+                        gifContainer.classList.remove('hidden');
+                        btn.innerHTML = '❌ Nascondi';
+                        btn.classList.add('bg-[#344e41]', 'text-white');
+                        btn.classList.remove('bg-white', 'text-[#3a5a40]');
+                    } else {
+                        gifContainer.classList.add('hidden');
+                        btn.innerHTML = '🎥 Mostra Esecuzione';
+                        btn.classList.remove('bg-[#344e41]', 'text-white');
+                        btn.classList.add('bg-white', 'text-[#3a5a40]');
+                    }
+                });
+            });
+
+            // Logica auto-salvataggio note
+            const textarea = document.getElementById('daily-notes');
+            const saveStatus = document.getElementById('save-status');
+            let timeoutId;
+
+            textarea.addEventListener('input', () => {
+                clearTimeout(timeoutId);
+                saveStatus.textContent = 'Salvataggio in corso...';
+
+                timeoutId = setTimeout(() => {
+                    localStorage.setItem(`workout_notes_${dayData.day}`, textarea.value);
+                    saveStatus.textContent = 'Note salvate ✓';
+                    setTimeout(() => saveStatus.textContent = '', 2000);
+                }, 800);
+            });
+        }
+
+        dayButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const dayIndex = button.dataset.day;
+
+                dayButtons.forEach(btn => btn.classList.remove('active-day'));
+                button.classList.add('active-day');
+
+                displayWorkout(dayIndex);
+            });
+        });
+
+        // Principles toggle
+        const principlesToggle = document.getElementById('principles-toggle');
+        const principlesContent = document.getElementById('principles-content');
+        const principlesArrow = document.getElementById('principles-arrow');
+
+        principlesToggle.addEventListener('click', () => {
+            principlesContent.classList.toggle('hidden');
+            principlesArrow.classList.toggle('rotate-180');
+        });
+
+        // Chart.js implementation for Weekly Focus
+        const chartLabels = workoutData.map(d => d.day);
+        const chartFocusData = workoutData.map(d => d.focus);
+
+        // Map focuses to numeric values for bar heights
+        const focusToValue = { 'Palestra (Isotonico)': 3, 'Casa (Funzionale)': 2, 'Recupero': 1, 'Riposo': 0 };
+        const numericFocusData = chartFocusData.map(focus => focusToValue[focus] || 0);
+
+        const ctxFocus = document.getElementById('weeklyFocusChart').getContext('2d');
+        const weeklyFocusChart = new Chart(ctxFocus, {
+            type: 'bar',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Modalità',
+                    data: numericFocusData,
+                    backgroundColor: numericFocusData.map(v => v === 3 ? '#344e41' : (v === 2 ? '#588157' : (v === 1 ? '#a3b18a' : '#dad7cd'))),
+                    borderColor: numericFocusData.map(v => v === 3 ? '#203328' : (v === 2 ? '#344e41' : (v === 1 ? '#588157' : '#a3b18a'))),
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) { return `Luogo: ${chartFocusData[context.dataIndex]}`; }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#3a3a3a',
+                            callback: function (value, index, values) {
+                                switch (value) {
+                                    case 0: return 'Riposo';
+                                    case 1: return 'Recupero';
+                                    case 2: return 'Casa';
+                                    case 3: return 'Palestra';
+                                    default: return '';
+                                }
+                            }
+                        }
+                    },
+                    x: { ticks: { color: '#3a3a3a' } }
+                }
+            }
+        });
+
+        // Chart.js implementation for Kcal Burned
+        const kcalLabels = workoutData.map(d => d.day);
+        const kcalData = workoutData.map(d => d.dailyKcal);
+
+        const ctxKcal = document.getElementById('kcalBurnedChart').getContext('2d');
+        const kcalBurnedChart = new Chart(ctxKcal, {
+            type: 'bar',
+            data: {
+                labels: kcalLabels,
+                datasets: [{
+                    label: 'Kcal Bruciate Stimate',
+                    data: kcalData,
+                    backgroundColor: '#cc5500',
+                    borderColor: '#a04300',
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) { return `${context.dataset.label}: ${context.parsed.y} kcal`; }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Kcal', color: '#3a3a3a' },
+                        ticks: { color: '#3a3a3a' }
+                    },
+                    x: { ticks: { color: '#3a3a3a' } }
+                }
+            }
+        });
+
+        // Chart.js implementation for Stimulated Areas
+        const weeklyStimulatedAreas = {};
+        workoutData.forEach(day => {
+            day.plan.forEach(block => {
+                if (block.type.includes('Esercizi Principali')) {
+                    block.details.forEach(ex => {
+                        for (const area in ex.areas) {
+                            weeklyStimulatedAreas[area] = (weeklyStimulatedAreas[area] || 0) + ex.areas[area];
+                        }
+                    });
+                }
+            });
+        });
+
+        // Mapping labels to capitalize them beautifully
+        const areaMapping = { 'core': 'Addome/Core', 'postura': 'Postura', 'fianchi': 'Fianchi', 'glutei': 'Glutei', 'gambe': 'Cosce/Gambe', 'schiena': 'Dorso', 'braccia': 'Braccia', 'petto': 'Pettorali', 'spalle': 'Spalle' };
+
+        const stimulatedAreaLabels = Object.keys(weeklyStimulatedAreas).map(k => areaMapping[k] || k);
+        const stimulatedAreaValues = Object.values(weeklyStimulatedAreas);
+
+        const ctxAreas = document.getElementById('stimulatedAreasChart').getContext('2d');
+        const stimulatedAreasChart = new Chart(ctxAreas, {
+            type: 'bar',
+            data: {
+                labels: stimulatedAreaLabels,
+                datasets: [{
+                    label: 'Intensità di Stimolazione',
+                    data: stimulatedAreaValues,
+                    backgroundColor: '#3a5a40',
+                    borderColor: '#344e41',
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                indexAxis: 'y', // Make it a horizontal bar chart
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) { return `Punteggio di focus: ${context.parsed.x}`; }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Livello di Focus Settimanale', color: '#3a3a3a' },
+                        ticks: { color: '#3a3a3a' }
+                    },
+                    y: { ticks: { color: '#3a3a3a' } }
+                }
+            }
+        });
+
+        // Initial load (Lunedì)
+        displayWorkout(0);
+        document.querySelector('.day-btn[data-day="0"]').classList.add('active-day');
+
+    </script>
+
 </body>
+
 </html>
